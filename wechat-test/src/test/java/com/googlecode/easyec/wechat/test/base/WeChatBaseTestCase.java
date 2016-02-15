@@ -1,8 +1,10 @@
 package com.googlecode.easyec.wechat.test.base;
 
 import com.googlecode.easyec.wechat.base.handler.WeChatAccessTokenRequestHandler;
+import com.googlecode.easyec.wechat.base.handler.WeChatGetCallbackIPRequestHandler;
 import com.googlecode.easyec.wechat.base.model.WeChatApp;
 import com.googlecode.easyec.wechat.base.model.WeChatCredential;
+import com.googlecode.easyec.wechat.base.model.WeChatIP;
 import com.googlecode.easyec.wechat.test.BaseTest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,5 +31,16 @@ public class WeChatBaseTestCase extends BaseTest {
         );
 
         Assert.assertNotNull(credential);
+    }
+
+    @Test
+    public void getCallbackIPs() throws Exception {
+        WeChatIP ip = httpRequest.request(
+            new WeChatGetCallbackIPRequestHandler(jsonObjectFactory, baseUri,
+                "acKqO5KPNvuE7YteqRFxEOh1cby2oul9UzIHB7tUooLc7r6Nz40e_DEKrPBgxk3ZCdKBlZzpE5tS-fDoUiq7fnpboOnwuwqK1-34UM1lXUgx8gXNCei0ZNfk7WMlOPG5GILgACATVY"
+            )
+        );
+
+        Assert.assertNotNull(ip);
     }
 }

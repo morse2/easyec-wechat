@@ -9,9 +9,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * 表示微信信用凭据的对象类.
+ * 该类包含了访问令牌值和过期时间信息
+ *
  * @author JunJie
  */
-@JsonIgnoreProperties({ "uidPk", "expireTime" })
+@JsonIgnoreProperties({ "expireTime" })
 public class WeChatCredential {
 
     @JsonProperty("access_token")

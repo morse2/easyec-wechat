@@ -2,6 +2,11 @@ package com.googlecode.easyec.wechat.base.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * 表示微信错误信息的对象类
+ *
+ * @author JunJie
+ */
 public class WeChatError {
 
     @JsonProperty("errcode")
