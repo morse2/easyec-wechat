@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       default-lazy-init="true">
+
+    <util:properties id="p_env" location="classpath:config/env.properties"/>
+
+    <!-- 定义Scheme注册器实例 -->
+    <bean id="schemeRegistry" class="com.googlecode.easyec.spirit.web.httpcomponent.DefaultSchemeRegistryFactory"/>
+
+    <bean id="clientConnectionManager"
+          class="org.apache.http.impl.conn.PoolingClientConnectionManager"
+          p:maxTotal="80"
+          p:defaultMaxPerRoute="10"
+          destroy-method="shutdown">
+        <constructor-arg type="org.apache.http.conn.scheme.SchemeRegistry" ref="schemeRegistry"/>
+    </bean>
+
+    <bean id="httpClient"
+          class="org.apache.http.impl.client.DefaultHttpClient"
+          c:conman-ref="clientConnectionManager"
+    />
+
+    <bean id="httpRequest"
+          depends-on="springContext"
+          class="com.googlecode.easyec.spirit.web.webservice.support.AutowireCapableHttpRequestBean">
+        <property name="httpRequest">
+            <bean class="com.googlecode.easyec.spirit.web.httpcomponent.HttpRequestFactory"
+                  p:clientConnectionManager-ref="clientConnectionManager"
+            />
+        </property>
+    </bean>
+
+    <!-- Spring上下文工具类 -->
+    <bean id="springContext"
+          class="com.googlecode.easyec.spirit.web.utils.SpringContextUtils"
+    />
+
+    <bean id="jsonObjectFactory"
+          class="com.googlecode.easyec.spirit.web.webservice.factory.impl.DefaultJackson2ObjectFactory"
+          c:objectMapper-ref="objectMapper"
+    />
+
+    <bean id="objectMapper"
+          class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+          p:simpleDateFormat="yyyy-MM-dd HH:mm:ss"
+    />
+</beans>
