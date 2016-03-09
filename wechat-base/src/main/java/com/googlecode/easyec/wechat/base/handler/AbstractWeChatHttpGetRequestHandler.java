@@ -1,5 +1,6 @@
 package com.googlecode.easyec.wechat.base.handler;
 
+import com.googlecode.easyec.spirit.web.utils.BeanUtils;
 import com.googlecode.easyec.spirit.web.webservice.factory.StreamObjectFactory;
 import com.googlecode.easyec.spirit.web.webservice.handler.AbstractHttpGetRequestHandler;
 import com.googlecode.easyec.spirit.web.webservice.support.HttpResponseContent;
@@ -20,22 +21,29 @@ public abstract class AbstractWeChatHttpGetRequestHandler<T, B> extends Abstract
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected T doIn200(HttpResponseContent content) throws IOException {
-        T ret = super.doIn200(content);
-        if (ret == null) {
-            doInOtherCode(content, 200);
-        }
+        doInOtherCode(content, 200);
 
-        return ret;
+        Class cls = BeanUtils.findGenericType(this, 0);
+        if (Void.class.isAssignableFrom(cls)) return null;
+
+        return (T) getObjectFactory().readValue(
+            content.getContent(), cls
+        );
     }
 
     @Override
     protected void doInOtherCode(HttpResponseContent content, int code) throws IOException {
         byte[] bs = content.getContent();
         if (new String(bs).contains("errcode")) {
-            throw new WeChatBusinessException(
-                getObjectFactory().readValue(bs, WeChatError.class)
+            WeChatError err = getObjectFactory().readValue(
+                bs, WeChatError.class
             );
+
+            if (!"0".equals(err.getCode())) {
+                throw new WeChatBusinessException(err);
+            }
         }
     }
 }

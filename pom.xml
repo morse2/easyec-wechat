@@ -8,6 +8,8 @@
     <modules>
         <module>wechat-base</module>
         <module>wechat-test</module>
+        <module>wechat-material</module>
+        <module>wechat-menu</module>
     </modules>
     <name>WeChat</name>
     <url>http://code.google.com/p/easyec</url>
@@ -67,6 +69,12 @@
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>spirit-web</artifactId>
             <version>[0.6.4.1-SNAPSHOT,]</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.2.6</version>
         </dependency>
     </dependencies>
 

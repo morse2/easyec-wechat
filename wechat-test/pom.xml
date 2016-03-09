@@ -42,5 +42,17 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.easyec</groupId>
+            <artifactId>wechat-material</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.easyec</groupId>
+            <artifactId>wechat-menu</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
