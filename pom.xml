@@ -10,6 +10,7 @@
         <module>wechat-test</module>
         <module>wechat-material</module>
         <module>wechat-menu</module>
+        <module>wechat-member</module>
     </modules>
     <name>WeChat</name>
     <url>http://code.google.com/p/easyec</url>
