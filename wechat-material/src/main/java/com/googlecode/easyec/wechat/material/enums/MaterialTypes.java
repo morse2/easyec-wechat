@@ -20,6 +20,10 @@ public enum MaterialTypes {
      */
     video,
     /**
+     * 图文
+     */
+    news,
+    /**
      * 缩略图
      */
     thumb

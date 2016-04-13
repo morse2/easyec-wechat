@@ -3,6 +3,7 @@ package com.googlecode.easyec.wechat.test.material;
 import com.googlecode.easyec.wechat.material.handler.AddArticleImageRequestHandler;
 import com.googlecode.easyec.wechat.material.handler.AddArticleRequestHandler;
 import com.googlecode.easyec.wechat.material.handler.AddMaterialRequestHandler;
+import com.googlecode.easyec.wechat.material.handler.BatchGetMaterialsRequestHandler;
 import com.googlecode.easyec.wechat.material.model.*;
 import com.googlecode.easyec.wechat.test.BaseTest;
 import org.apache.commons.io.IOUtils;
@@ -102,6 +103,19 @@ public class WeChatPermanentMaterialTestCase extends BaseTest {
 
         AddMaterialResult result = handleRequest(
             new AddMaterialRequestHandler(jsonObjectFactory, baseUri, material)
+        );
+
+        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void batchGetMaterials() throws Exception {
+        BatchGetMaterials query = new BatchGetMaterials();
+        query.setCredential(getCredential());
+        query.setType(news);
+
+        BatchGetMaterialsResult result = handleRequest(
+            new BatchGetMaterialsRequestHandler(jsonObjectFactory, baseUri, query)
         );
 
         Assert.assertNotNull(result);

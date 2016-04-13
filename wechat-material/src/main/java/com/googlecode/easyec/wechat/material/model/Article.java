@@ -1,5 +1,6 @@
 package com.googlecode.easyec.wechat.material.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang.BooleanUtils;
 
@@ -10,17 +11,25 @@ import static org.apache.commons.lang.BooleanUtils.toBoolean;
  *
  * @author JunJie
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Article {
 
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("thumb_media_id")
     private String thumbMediaId;
+    @JsonProperty("author")
     private String author;
+    @JsonProperty("digest")
     private String digest;
     private boolean showCover;
+    @JsonProperty("content")
     private String content;
+    @JsonProperty("content_source_url")
     private String sourceUrl;
+    @JsonProperty("url")
+    private String url;
 
-    @JsonProperty("title")
     public String getTitle() {
         return title;
     }
@@ -29,7 +38,6 @@ public class Article {
         this.title = title;
     }
 
-    @JsonProperty("thumb_media_id")
     public String getThumbMediaId() {
         return thumbMediaId;
     }
@@ -38,7 +46,6 @@ public class Article {
         this.thumbMediaId = thumbMediaId;
     }
 
-    @JsonProperty("author")
     public String getAuthor() {
         return author;
     }
@@ -47,7 +54,6 @@ public class Article {
         this.author = author;
     }
 
-    @JsonProperty("digest")
     public String getDigest() {
         return digest;
     }
@@ -69,11 +75,11 @@ public class Article {
         return BooleanUtils.toInteger(isShowCover());
     }
 
+    @JsonProperty("show_cover_pic")
     public void setShowCover(String showCover) {
         setShowCover(toBoolean(showCover, "1", "0"));
     }
 
-    @JsonProperty("content")
     public String getContent() {
         return content;
     }
@@ -82,7 +88,6 @@ public class Article {
         this.content = content;
     }
 
-    @JsonProperty("content_source_url")
     public String getSourceUrl() {
         return sourceUrl;
     }

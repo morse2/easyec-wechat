@@ -61,6 +61,25 @@ public class WeChatUtils {
     }
 
     /**
+     * 解析JSON格式的Map对象内容,
+     * 并将其内容转换为目标对象类型.
+     *
+     * @param jsonMap   JSON格式封装的Map对象
+     * @param targetCls 目标对象类型
+     * @param <T>       泛型类型
+     * @return 目标对象
+     */
+    public static <T> T parseJsonObject(Map jsonMap, Class<T> targetCls) {
+        if (jsonMap == null) return null;
+
+        StreamObjectFactory jsonObjectFactory = _getJsonObjectFactory();
+        return jsonObjectFactory.readValue(
+            jsonObjectFactory.writeValue(jsonMap),
+            targetCls
+        );
+    }
+
+    /**
      * 从Spring上下文中获取Json工厂对象实例.
      * 实例名字为jsonObjectFactory
      */
