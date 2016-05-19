@@ -34,7 +34,7 @@ public class WeChatTemplateTest extends BaseTest {
         GetTemplateListResult result = handleRequest(
           new GetTemplateListRequestHandler(jsonObjectFactory,baseUri,ge)
         );
-        Assert.assertNotNull(ge);
+        Assert.assertNotNull(result);
     }
 
     //发送消息
