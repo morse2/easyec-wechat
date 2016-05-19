@@ -6,12 +6,12 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>wechat-member</artifactId>
+    <artifactId>wechat-template</artifactId>
     <packaging>jar</packaging>
-    <name>wechat-member</name>
+    <name>wechat-template</name>
     <url>http://code.google.com/p/easyec</url>
     <description>
-        EasyEC WeChat member module is a part of interface for access WeChat interface service.
+        EasyEC WeChat template module is a part of interface for access WeChat interface service.
     </description>
 
     <dependencies>
@@ -19,12 +19,6 @@
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>wechat-base</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.googlecode.easyec</groupId>
-            <artifactId>spirit-dao</artifactId>
-            <version>[0.6.4.1-SNAPSHOT,]</version>
         </dependency>
     </dependencies>
 </project>

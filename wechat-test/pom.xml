@@ -60,5 +60,17 @@
             <artifactId>wechat-oauth2</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.easyec</groupId>
+            <artifactId>wechat-member</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.easyec</groupId>
+            <artifactId>wechat-template</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

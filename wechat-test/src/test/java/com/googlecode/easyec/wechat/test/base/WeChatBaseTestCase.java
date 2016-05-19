@@ -20,8 +20,8 @@ public class WeChatBaseTestCase extends BaseTest {
     @Before
     public void beforeRun() {
         app = new WeChatApp();
-        app.setAppId("wx47903b80d5365301");
-        app.setSecret("673fec052c52529a098619e1b754beef");
+        app.setAppId("wx6b074084a5e65bd1");
+        app.setSecret("d4624c36b6795d1d99dcf0547af5443d");
     }
 
     @Test
