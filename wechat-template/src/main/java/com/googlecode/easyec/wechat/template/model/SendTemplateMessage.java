@@ -47,12 +47,44 @@ public class SendTemplateMessage extends AbstractCredentialCtrl {
         this.url = url;
     }
 
+    /**
+     * 添加一个模板参数的值
+     *
+     * @param key   参数键
+     * @param value 参数值
+     */
     public void addValue(String key, String value) {
         values.put(key, create(value));
     }
 
+    /**
+     * 添加一个模板参数的值
+     *
+     * @param key   参数键
+     * @param value 参数值
+     * @param color 参数值的颜色
+     */
     public void addValue(String key, String value, String color) {
         values.put(key, create(value, color));
+    }
+
+    /**
+     * 判断模板参数是否已经存在
+     *
+     * @param key 参数键
+     * @return 存在返回TRUE, 否则返回FALSE
+     */
+    public boolean hasValue(String key) {
+        return values.containsKey(key);
+    }
+
+    /**
+     * 删除模板的参数
+     *
+     * @param key 参数键
+     */
+    public void removeValue(String key) {
+        values.remove(key);
     }
 
     /**
