@@ -13,15 +13,12 @@ public class SendTemplateMessage extends AbstractCredentialCtrl {
 
     @JsonProperty("touser")
     private String toUser;
-
     @JsonProperty("template_id")
     private String templateId;
-
     @JsonProperty("url")
-    private  String url;       //"http://weixin.qq.com/download";
-
+    private String url;
     @JsonProperty("data")
-    private TemplateEntityValue data;
+    private TemplateData data;
 
     public String getToUser() {
         return toUser;
@@ -47,11 +44,11 @@ public class SendTemplateMessage extends AbstractCredentialCtrl {
         this.url = url;
     }
 
-    public TemplateEntityValue getData() {
+    public TemplateData getData() {
         return data;
     }
 
-    public void setData(TemplateEntityValue data) {
+    public void setData(TemplateData data) {
         this.data = data;
     }
 }

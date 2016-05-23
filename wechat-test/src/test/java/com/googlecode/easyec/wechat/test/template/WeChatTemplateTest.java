@@ -5,6 +5,7 @@ import com.googlecode.easyec.wechat.template.handler.SendTemplateMessageRequestH
 import com.googlecode.easyec.wechat.template.handler.SetIndustryRequestHandler;
 import com.googlecode.easyec.wechat.template.model.*;
 import com.googlecode.easyec.wechat.test.BaseTest;
+import com.googlecode.easyec.wechat.test.template.model.TemplateEntityValue;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,29 +22,29 @@ public class WeChatTemplateTest extends BaseTest {
         se.setIndustryId1("1");
         se.setIndustryId2("4");
         handleRequest(
-                new SetIndustryRequestHandler(jsonObjectFactory,baseUri,se)
+            new SetIndustryRequestHandler(jsonObjectFactory, baseUri, se)
         );
     }
 
 
     //获取模板列表
     @Test
-    public  void getTemplateList() throws Exception {
+    public void getTemplateList() throws Exception {
         GetTemplateListEntity ge = new GetTemplateListEntity();
         ge.setCredential(getCredential());
         GetTemplateListResult result = handleRequest(
-          new GetTemplateListRequestHandler(jsonObjectFactory,baseUri,ge)
+            new GetTemplateListRequestHandler(jsonObjectFactory, baseUri, ge)
         );
         Assert.assertNotNull(result);
     }
 
     //发送消息
     @Test
-    public  void sendMessage() throws Exception {
+    public void sendMessage() throws Exception {
         SendTemplateMessage sendTm = new SendTemplateMessage();
         sendTm.setCredential(getCredential());
-        sendTm.setToUser("osxcMxIoHjRWg4C2cMbNpaupyPpk");
-        sendTm.setTemplateId("bn80TpHR9WzUUarhNQlLOppMRq9pqINwAhnzVUM3usk");
+        sendTm.setToUser("o_oWEv4suB3ANev76hbnRZ1Ukii8");
+        sendTm.setTemplateId("eH1P30kyB84eH9QjuJ76-ghMIrnOKLK4cohBdEsx8K8");
         sendTm.setUrl("http://baidu.com");
         TemplateEntityValue tv = new TemplateEntityValue();
         tv.setFirst("#173177", "恭喜你购买成功！");
@@ -53,9 +54,10 @@ public class WeChatTemplateTest extends BaseTest {
         tv.setRemark("#173177", "欢迎再次购买!");
         sendTm.setData(tv);
         TemplateMessageResult result = handleRequest(
-                new SendTemplateMessageRequestHandler(jsonObjectFactory, baseUri,sendTm)
+            new SendTemplateMessageRequestHandler(jsonObjectFactory, baseUri, sendTm)
         );
+
         Assert.assertNotNull(result);
-        System.out.print(result.getErrmsg());
+        System.out.print(result.getMsgId());
     }
 }

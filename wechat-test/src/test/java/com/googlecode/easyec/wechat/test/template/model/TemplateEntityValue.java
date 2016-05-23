@@ -1,13 +1,13 @@
-package com.googlecode.easyec.wechat.template.model;
+package com.googlecode.easyec.wechat.test.template.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.googlecode.easyec.wechat.template.model.TemplateData;
+import com.googlecode.easyec.wechat.template.model.TemplateValue;
 
 /**
  * Created by 平功元 on 2016/4/25.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TemplateEntityValue {
+public class TemplateEntityValue extends TemplateData {
 
     private TemplateValue first;
 
@@ -22,6 +22,7 @@ public class TemplateEntityValue {
     public TemplateValue getFirst() {
         return first;
     }
+
     @JsonProperty("first")
     public void setFirst(TemplateValue first) {
         this.first = first;
@@ -33,6 +34,7 @@ public class TemplateEntityValue {
         tv.setColor(color);
         setFirst(tv);
     }
+
     @JsonProperty("keynote1")
     public TemplateValue getKeynote1() {
         return keynote1;
@@ -48,6 +50,7 @@ public class TemplateEntityValue {
         tv1.setColor(color);
         setKeynote1(tv1);
     }
+
     @JsonProperty("keynote2")
     public TemplateValue getKeynote2() {
         return keynote2;
@@ -63,6 +66,7 @@ public class TemplateEntityValue {
         tv2.setColor(color);
         setKeynote2(tv2);
     }
+
     @JsonProperty("keynote3")
     public TemplateValue getKeynote3() {
         return keynote3;
@@ -78,6 +82,7 @@ public class TemplateEntityValue {
         tv3.setColor(color);
         setKeynote3(tv3);
     }
+
     @JsonProperty("remark")
     public TemplateValue getRemark() {
         return remark;
@@ -87,7 +92,7 @@ public class TemplateEntityValue {
         this.remark = remark;
     }
 
-    public void setRemark( String color,String value) {
+    public void setRemark(String color, String value) {
         TemplateValue tvk = new TemplateValue();
         tvk.setValue(value);
         tvk.setColor(color);
