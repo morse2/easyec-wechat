@@ -5,7 +5,6 @@ import com.googlecode.easyec.wechat.template.handler.SendTemplateMessageRequestH
 import com.googlecode.easyec.wechat.template.handler.SetIndustryRequestHandler;
 import com.googlecode.easyec.wechat.template.model.*;
 import com.googlecode.easyec.wechat.test.BaseTest;
-import com.googlecode.easyec.wechat.test.template.model.TemplateEntityValue;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,13 +45,16 @@ public class WeChatTemplateTest extends BaseTest {
         sendTm.setToUser("o_oWEv4suB3ANev76hbnRZ1Ukii8");
         sendTm.setTemplateId("eH1P30kyB84eH9QjuJ76-ghMIrnOKLK4cohBdEsx8K8");
         sendTm.setUrl("http://baidu.com");
-        TemplateEntityValue tv = new TemplateEntityValue();
-        tv.setFirst("#173177", "恭喜你购买成功！");
-        tv.setKeynote1("#173177", "巧克力");
-        tv.setKeynote2("#173177", "39.8元");
-        tv.setKeynote3("#173177", "2016年5月18日");
-        tv.setRemark("#173177", "欢迎再次购买!");
-        sendTm.setData(tv);
+
+        sendTm.addValue("first", "恭喜你购买成功！", "#173177");
+        sendTm.addValue("keynote1", "巧克力");
+        sendTm.addValue("keynote2", "39.8元");
+        sendTm.addValue("keynote3", "2016年5月18日");
+        sendTm.addValue("remark", "欢迎再次购买!");
+
+        byte[] bs = jsonObjectFactory.writeValue(sendTm);
+        System.out.println(new String(bs, "utf-8"));
+
         TemplateMessageResult result = handleRequest(
             new SendTemplateMessageRequestHandler(jsonObjectFactory, baseUri, sendTm)
         );

@@ -1,6 +1,9 @@
 package com.googlecode.easyec.wechat.template.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * 表示模板数据的基类。
@@ -9,7 +12,27 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  * @author JunJie
  */
+@JsonInclude(NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class TemplateData {
+public class TemplateData {
 
+    private String value;
+    private String color;
+
+    public TemplateData(String value) {
+        this(value, null);
+    }
+
+    public TemplateData(String value, String color) {
+        this.value = value;
+        this.color = color;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getColor() {
+        return color;
+    }
 }
