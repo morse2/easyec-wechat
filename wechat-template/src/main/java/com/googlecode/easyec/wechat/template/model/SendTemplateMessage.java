@@ -88,6 +88,16 @@ public class SendTemplateMessage extends AbstractCredentialCtrl {
     }
 
     /**
+     * 获取模板参数数据的对象
+     *
+     * @param key 参数键
+     * @return 模板数据对象
+     */
+    public TemplateData getValue(String key) {
+        return values.get(key);
+    }
+
+    /**
      * 创建一个模板数据对象
      *
      * @param value 参数值
