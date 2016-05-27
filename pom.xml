@@ -13,6 +13,7 @@
         <module>wechat-member</module>
         <module>wechat-oauth2</module>
         <module>wechat-template</module>
+        <module>wechat-event</module>
     </modules>
     <name>WeChat</name>
     <url>http://code.google.com/p/easyec</url>

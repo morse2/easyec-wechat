@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>wechat</artifactId>
+        <groupId>com.googlecode.easyec</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>wechat-event</artifactId>
+    <packaging>jar</packaging>
+    <name>wechat-event</name>
+    <url>http://maven.apache.org</url>
+    <description>
+        EasyEC WeChat event process module is a part of interface for access WeChat interface service.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.googlecode.easyec</groupId>
+            <artifactId>wechat-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+    </dependencies>
+</project>

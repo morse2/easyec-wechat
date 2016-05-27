@@ -47,30 +47,42 @@
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>wechat-material</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>wechat-menu</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>wechat-oauth2</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>wechat-member</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>wechat-template</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.easyec</groupId>
+            <artifactId>wechat-event</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

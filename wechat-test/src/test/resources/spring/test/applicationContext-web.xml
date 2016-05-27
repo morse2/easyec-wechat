@@ -47,8 +47,29 @@
           c:objectMapper-ref="objectMapper"
     />
 
+    <!-- JAXB工厂类 -->
+    <bean id="jaxbObjectFactory"
+          class="com.googlecode.easyec.spirit.web.webservice.factory.impl.Jaxb2MarshallerObjectFactory"
+          c:jaxb2Marshaller-ref="jaxb2Marshaller"
+    />
+
     <bean id="objectMapper"
           class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
           p:simpleDateFormat="yyyy-MM-dd HH:mm:ss"
     />
+
+    <!-- JAXB2 Marshaller工厂类 -->
+    <bean id="jaxb2Marshaller"
+          class="org.springframework.oxm.jaxb.Jaxb2Marshaller"
+          p:packagesToScan="com.googlecode.easyec.wechat.msg.xml"
+    />
+
+    <bean id="weChatMessageHandler"
+          class="com.googlecode.easyec.wechat.msg.handler.WeChatMessageHandlerChain"
+          p:messageHandlers-ref="messageHandlers"
+    />
+
+    <util:list id="messageHandlers">
+        <bean class="com.googlecode.easyec.wechat.test.msg.impl.MySubscriptionMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+    </util:list>
 </beans>

@@ -21,6 +21,8 @@ public class BaseTest extends AbstractJUnit4SpringContextTests {
     protected HttpRequest httpRequest;
     @Resource
     protected StreamObjectFactory jsonObjectFactory;
+    @Resource
+    protected StreamObjectFactory jaxbObjectFactory;
 
     @Value("#{p_env['wechat.api.baseUri']}")
     protected String baseUri;
