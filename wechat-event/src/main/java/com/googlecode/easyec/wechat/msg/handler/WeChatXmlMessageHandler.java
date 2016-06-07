@@ -1,15 +1,33 @@
 package com.googlecode.easyec.wechat.msg.handler;
 
 import com.googlecode.easyec.spirit.web.webservice.factory.StreamObjectFactory;
+import com.googlecode.easyec.wechat.msg.annotation.XmlElementMapping;
+import com.googlecode.easyec.wechat.msg.converter.XmlContentConverter;
 import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
 import com.googlecode.easyec.wechat.msg.xml.WeChatXmlObject;
 import com.googlecode.easyec.wechat.utils.WeChatUtils;
+import org.apache.commons.beanutils.BeanPropertyValueEqualsPredicate;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.functors.OrPredicate;
+import org.dom4j.dom.DOMCDATA;
+import org.dom4j.dom.DOMElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.PropertyValue;
 import org.springframework.util.Assert;
 import org.w3c.dom.Element;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.apache.commons.lang.StringUtils.trim;
+import static org.apache.commons.lang.time.DateFormatUtils.format;
+import static org.springframework.beans.BeanUtils.instantiate;
+import static org.springframework.beans.BeanUtils.instantiateClass;
 
 /**
  * 微信XML格式的消息处理的基类
@@ -36,33 +54,42 @@ public abstract class WeChatXmlMessageHandler<T extends WeChatMessage> implement
     }
 
     @Override
-    public WeChatMessage process(byte[] data) throws Exception {
+    public byte[] process(byte[] data) throws Exception {
         WeChatXmlObject result = streamObjectFactory.readValue(
             data, WeChatXmlObject.class
         );
 
         Assert.notNull(result, "Cannot resolve XML data.");
 
-        if (accept(result)) return processMessage(cast(result));
+        T obj = doCast(result);
+        if (accept(obj)) {
+            WeChatMessage ret = processMessage(obj);
+            if (ret == null) return null;
 
-        logger.debug("MsgType cannot be accept, so ignore and return null.");
+            WeChatXmlObject xmlToRet = _createReturnXml(ret);
+            if (xmlToRet != null) {
+                return streamObjectFactory.writeValue(xmlToRet);
+            }
+        }
+
+        logger.debug("Message cannot be accept, so ignore and return null.");
 
         return null;
     }
 
     /**
-     * 为消息对象设置公共属性
+     * 执行将XML数据对象转换为目标业务对象的方法
      *
-     * @param obj <code>WeChatXmlObject</code>对象
-     * @param msg 微信消息对象
+     * @param obj
+     * @return
      */
-    protected void setCommonProperties(WeChatXmlObject obj, WeChatMessage msg) {
-        msg.setFrom(obj.getFrom());
-        msg.setTo(obj.getTo());
-        msg.setMsgType(obj.getMsgType());
-        msg.setCreateTime(
-            WeChatUtils.parseDate(obj.getCreateTime())
-        );
+    private T doCast(WeChatXmlObject obj) {
+        T msg = createInstance(obj);
+
+        // 解析属性
+        _parseProperties(obj, msg);
+
+        return msg;
     }
 
     /**
@@ -71,42 +98,125 @@ public abstract class WeChatXmlMessageHandler<T extends WeChatMessage> implement
      * @param obj <code>WeChatXmlObject</code>对象
      * @param msg 微信消息对象
      */
-    protected void parseCustomProperties(WeChatXmlObject obj, WeChatMessage msg) {
-        for (Element element : obj.getElements()) {
-            String name = element.getLocalName();
-            String content = trim(element.getTextContent());
-            setCustomValue(msg, name, content);
+    private void _parseProperties(WeChatXmlObject obj, WeChatMessage msg) {
+        // 设置公共属性
+        msg.setFrom(obj.getFrom());
+        msg.setTo(obj.getTo());
+        msg.setMsgType(obj.getMsgType());
+        msg.setCreateTime(
+            WeChatUtils.parseDate(obj.getCreateTime())
+        );
+
+        // 处理自定义属性
+        BeanWrapper bw = new BeanWrapperImpl(msg);
+        PropertyDescriptor[] descriptors = bw.getPropertyDescriptors();
+        for (PropertyDescriptor descriptor : descriptors) {
+            if (bw.isWritableProperty(descriptor.getName())) {
+                Method method = descriptor.getWriteMethod();
+                if (!method.isAnnotationPresent(XmlElementMapping.class)) {
+                    logger.debug("No annotation was present. Property: [" + descriptor.getName() + "].");
+
+                    continue;
+                }
+
+                XmlElementMapping anno = method.getAnnotation(XmlElementMapping.class);
+                String name = anno.name();
+
+                Element e = (Element) CollectionUtils.find(
+                    obj.getElements(),
+                    OrPredicate.getInstance(
+                        new BeanPropertyValueEqualsPredicate("localName", name),
+                        new BeanPropertyValueEqualsPredicate("nodeName", name)
+                    )
+                );
+
+                if (e == null) {
+                    logger.debug("No element was found. Name: [{}].", name);
+
+                    continue;
+                }
+
+                Class<? extends XmlContentConverter> cv = anno.converter();
+                if (cv.isInterface()) {
+                    logger.warn("XmlContentConverter cannot be a interface. Converter class: [{}].", cv);
+
+                    continue;
+                }
+
+                String val = trim(e.getTextContent());
+                bw.setPropertyValue(
+                    new PropertyValue(
+                        descriptor.getName(),
+                        instantiate(cv).from(val)
+                    )
+                );
+            }
         }
     }
 
-    /**
-     * 设置自定义的属性值。
-     * 该方法应有子类具体实现。
-     *
-     * @param msg   微信消息对象
-     * @param key   自定义属性的名称
-     * @param value 自定义属性的值
-     */
-    protected void setCustomValue(WeChatMessage msg, String key, String value) {
-        // no op
+    /* 创建返回的XML对象 */
+    private WeChatXmlObject _createReturnXml(WeChatMessage msg) {
+        WeChatXmlObject xml = new WeChatXmlObject();
+        xml.setMsgType(msg.getMsgType());
+        xml.setFrom(msg.getFrom());
+        xml.setTo(msg.getTo());
+        xml.setCreateTime(
+            format(msg.getCreateTime(), "yyyyMMddHHmmss")
+        );
+
+
+        List<Element> elements = new ArrayList<Element>();
+        BeanWrapper bw = new BeanWrapperImpl(msg);
+        PropertyDescriptor[] descriptors = bw.getPropertyDescriptors();
+        for (PropertyDescriptor descriptor : descriptors) {
+            if (bw.isReadableProperty(descriptor.getName())) {
+                Method method = descriptor.getReadMethod();
+                if (!method.isAnnotationPresent(XmlElementMapping.class)) {
+                    logger.debug("There is no set annotation XmlElementMapping.");
+
+                    continue;
+                }
+
+                XmlElementMapping anno = method.getAnnotation(XmlElementMapping.class);
+
+                Class<? extends XmlContentConverter> cv = anno.converter();
+                if (cv.isInterface()) {
+                    logger.warn("XmlContentConverter cannot be a interface. Converter class: [{}].", cv);
+
+                    continue;
+                }
+
+                String val = instantiateClass(cv).to(
+                    bw.getPropertyValue(descriptor.getName())
+                );
+
+                DOMElement ele = new DOMElement(anno.name());
+                ele.add(new DOMCDATA(val));
+                elements.add(ele);
+            }
+        }
+
+        xml.setElements(elements);
+
+        return xml;
     }
 
     /**
      * 判断当前消息处理对象是否
      * 接收并处理该XML对象数据
      *
-     * @param obj <code>WeChatXmlObject</code>对象
+     * @param msg 微信消息对象
      * @return bool值
      */
-    abstract protected boolean accept(WeChatXmlObject obj);
+    abstract protected boolean accept(WeChatMessage msg);
 
     /**
-     * 转换XML对象为指定的业务消息对象
+     * 创建指定的业务消息对象
      *
      * @param obj <code>WeChatXmlObject</code>对象
      * @return 指定的消息对象
      */
-    abstract protected T cast(WeChatXmlObject obj);
+    abstract protected T createInstance(WeChatXmlObject obj);
 
     /**
      * 处理微信XML消息对象的方法

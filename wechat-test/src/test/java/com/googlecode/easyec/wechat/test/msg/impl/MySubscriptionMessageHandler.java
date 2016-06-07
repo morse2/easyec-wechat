@@ -5,6 +5,9 @@ import com.googlecode.easyec.wechat.msg.handler.event.SubscriptionMessageHandler
 import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
 import com.googlecode.easyec.wechat.msg.model.event.QRSubscriptionMessage;
 import com.googlecode.easyec.wechat.msg.model.event.SubscriptionMessage;
+import com.googlecode.easyec.wechat.msg.model.impl.WeChatTextMessage;
+
+import java.util.Date;
 
 public class MySubscriptionMessageHandler extends SubscriptionMessageHandler {
 

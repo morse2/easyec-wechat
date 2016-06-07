@@ -1,5 +1,6 @@
 package com.googlecode.easyec.wechat.msg.model.event;
 
+import com.googlecode.easyec.wechat.msg.annotation.XmlElementMapping;
 import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
 
 /**
@@ -9,7 +10,6 @@ import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
  */
 public class WeChatEventMessage extends WeChatMessage {
 
-    public static final String ELEMENT_EVENT = "Event";
     public static final String MSG_TYPE_EVENT = "event";
 
     private String event;
@@ -18,6 +18,7 @@ public class WeChatEventMessage extends WeChatMessage {
         return event;
     }
 
+    @XmlElementMapping(name = "Event")
     public void setEvent(String event) {
         this.event = event;
     }

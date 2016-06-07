@@ -1,12 +1,13 @@
 package com.googlecode.easyec.wechat.msg.handler;
 
-import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.nio.charset.Charset.forName;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 /**
@@ -27,13 +28,13 @@ public class WeChatMessageHandlerChain implements WeChatMessageHandler, Initiali
     }
 
     @Override
-    public WeChatMessage process(byte[] data) throws Exception {
+    public byte[] process(byte[] data) throws Exception {
         for (WeChatMessageHandler messageHandler : messageHandlers) {
-            WeChatMessage ret = messageHandler.process(data);
-            if (ret != null) return ret;
+            byte[] ret = messageHandler.process(data);
+            if (ArrayUtils.isNotEmpty(ret)) return ret;
         }
 
-        return null;
+        return RETURN_SUCCESS.getBytes(forName("utf-8"));
     }
 
     @Override

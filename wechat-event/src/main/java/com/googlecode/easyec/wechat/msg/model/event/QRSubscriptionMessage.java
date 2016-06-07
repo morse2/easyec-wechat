@@ -1,14 +1,13 @@
 package com.googlecode.easyec.wechat.msg.model.event;
 
+import com.googlecode.easyec.wechat.msg.annotation.XmlElementMapping;
+
 /**
  * 表示用户扫码关注的消息对象类
  *
  * @author JunJie
  */
 public class QRSubscriptionMessage extends SubscriptionMessage {
-
-    public static final String ELEMENT_EVENT_KEY = "EventKey";
-    public static final String ELEMENT_TICKET = "Ticket";
 
     private String eventKey;
     private String ticket;
@@ -17,6 +16,7 @@ public class QRSubscriptionMessage extends SubscriptionMessage {
         return eventKey;
     }
 
+    @XmlElementMapping(name = "EventKey")
     public void setEventKey(String eventKey) {
         this.eventKey = eventKey;
     }
@@ -25,6 +25,7 @@ public class QRSubscriptionMessage extends SubscriptionMessage {
         return ticket;
     }
 
+    @XmlElementMapping(name = "Ticket")
     public void setTicket(String ticket) {
         this.ticket = ticket;
     }
