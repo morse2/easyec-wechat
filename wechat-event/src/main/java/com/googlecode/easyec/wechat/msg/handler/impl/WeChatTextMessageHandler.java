@@ -11,9 +11,9 @@ import com.googlecode.easyec.wechat.msg.xml.WeChatXmlObject;
  *
  * @author JunJie
  */
-public abstract class WeChatMessageHandler extends WeChatXmlMessageHandler<WeChatTextMessage> {
+public abstract class WeChatTextMessageHandler extends WeChatXmlMessageHandler<WeChatTextMessage> {
 
-    public WeChatMessageHandler(StreamObjectFactory streamObjectFactory) {
+    public WeChatTextMessageHandler(StreamObjectFactory streamObjectFactory) {
         super(streamObjectFactory);
     }
 
