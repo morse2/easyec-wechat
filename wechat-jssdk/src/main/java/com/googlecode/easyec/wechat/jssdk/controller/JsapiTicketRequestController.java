@@ -37,6 +37,7 @@ public class JsapiTicketRequestController {
         // 生成16位随机数
         String nonce = RandomStringUtils.random(16, true, true);
         String timestamp = String.valueOf(System.currentTimeMillis());
+        timestamp = timestamp.substring(0, timestamp.length() - 3);
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("jsapi_ticket", ticket.getTicket());
@@ -51,7 +52,7 @@ public class JsapiTicketRequestController {
         List<String> arr = Arrays.asList(objects);
         Collections.sort(arr);
 
-        String signature = WeChatUtils.sha1Hex(join(arr, ""));
+        String signature = WeChatUtils.sha1Hex(join(arr, "&"));
         return new JsapiSignature(nonce, timestamp, signature);
     }
 }

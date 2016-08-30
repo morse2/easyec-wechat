@@ -9,7 +9,8 @@ import java.io.Serializable;
  */
 public class JsapiSignature implements Serializable {
 
-    private static final long serialVersionUID = 371185246409235261L;
+    private static final long serialVersionUID = 5302837505769889982L;
+    private String appid;
     private String nonceStr;
     private String timestamp;
     private String signature;
@@ -30,5 +31,13 @@ public class JsapiSignature implements Serializable {
 
     public String getSignature() {
         return signature;
+    }
+
+    public String getAppid() {
+        return appid;
+    }
+
+    public void setAppid(String appid) {
+        this.appid = appid;
     }
 }
