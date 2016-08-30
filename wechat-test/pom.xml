@@ -18,21 +18,21 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <version>3.0-alpha-1</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>3.2.8.RELEASE</version>
+            <version>4.3.0.RELEASE</version>
             <scope>test</scope>
         </dependency>
 
@@ -81,6 +81,13 @@
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>wechat-event</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.easyec</groupId>
+            <artifactId>wechat-jssdk</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

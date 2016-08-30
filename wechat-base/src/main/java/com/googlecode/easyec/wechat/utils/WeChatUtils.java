@@ -1,10 +1,14 @@
 package com.googlecode.easyec.wechat.utils;
 
 import com.googlecode.easyec.spirit.web.webservice.factory.StreamObjectFactory;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import static com.googlecode.easyec.spirit.web.utils.SpringContextUtils.getBean;
@@ -77,6 +81,22 @@ public class WeChatUtils {
             jsonObjectFactory.writeValue(jsonMap),
             targetCls
         );
+    }
+
+    /**
+     * 对参数字符串进行SHA-1加密
+     *
+     * @param original 原始参数字符串
+     * @return SHA-1加密后的字符串
+     */
+    public static String sha1Hex(String original) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.update(original.getBytes(Charset.forName("UTF-8")));
+            return Hex.encodeHexString(digest.digest());
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**

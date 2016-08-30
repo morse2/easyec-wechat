@@ -1,15 +1,12 @@
 package com.googlecode.easyec.wechat.oauth2.controller;
 
-import org.apache.commons.codec.binary.Hex;
+import com.googlecode.easyec.wechat.utils.WeChatUtils;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +38,7 @@ public class WebAuthorityController {
         List<String> arr = Arrays.asList(token, timestamp, nonce);
         Collections.sort(arr);
 
-        return _sha1Hex(
+        return WeChatUtils.sha1Hex(
             join(arr, "")
         ).equals(signature);
     }
@@ -58,15 +55,5 @@ public class WebAuthorityController {
         pw.print(
             WebUtils.findParameterValue(request, "echostr")
         );
-    }
-
-    private String _sha1Hex(String original) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            digest.update(original.getBytes(Charset.forName("UTF-8")));
-            return Hex.encodeHexString(digest.digest());
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException(e);
-        }
     }
 }
