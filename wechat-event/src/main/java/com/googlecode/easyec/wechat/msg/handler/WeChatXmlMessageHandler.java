@@ -6,9 +6,9 @@ import com.googlecode.easyec.wechat.msg.converter.XmlContentConverter;
 import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
 import com.googlecode.easyec.wechat.msg.xml.WeChatXmlObject;
 import com.googlecode.easyec.wechat.utils.WeChatUtils;
-import org.apache.commons.beanutils.BeanPropertyValueEqualsPredicate;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.functors.OrPredicate;
+import org.apache.commons.collections4.IteratorUtils;
+import org.apache.commons.collections4.Predicate;
+import org.apache.commons.collections4.PredicateUtils;
 import org.dom4j.dom.DOMCDATA;
 import org.dom4j.dom.DOMElement;
 import org.slf4j.Logger;
@@ -24,8 +24,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.lang.StringUtils.trim;
-import static org.apache.commons.lang.time.DateFormatUtils.format;
+import static org.apache.commons.lang3.StringUtils.trim;
+import static org.apache.commons.lang3.time.DateFormatUtils.format;
 import static org.springframework.beans.BeanUtils.instantiate;
 import static org.springframework.beans.BeanUtils.instantiateClass;
 
@@ -122,11 +122,11 @@ public abstract class WeChatXmlMessageHandler<T extends WeChatMessage> implement
                 XmlElementMapping anno = method.getAnnotation(XmlElementMapping.class);
                 String name = anno.name();
 
-                Element e = (Element) CollectionUtils.find(
-                    obj.getElements(),
-                    OrPredicate.getInstance(
-                        new BeanPropertyValueEqualsPredicate("localName", name),
-                        new BeanPropertyValueEqualsPredicate("nodeName", name)
+                Element e = IteratorUtils.find(
+                    obj.getElements().iterator(),
+                    PredicateUtils.orPredicate(
+                        new LocalNamePredicate(name),
+                        new NodeNamePredicate(name)
                     )
                 );
 
@@ -226,4 +226,38 @@ public abstract class WeChatXmlMessageHandler<T extends WeChatMessage> implement
      * @throws Exception 捕获并抛出的异常信息
      */
     abstract protected WeChatMessage processMessage(T obj) throws Exception;
+
+    /**
+     * <code>Element</code>的LocalName属性值判断类
+     */
+    private class LocalNamePredicate implements Predicate<Element> {
+
+        private String name;
+
+        public LocalNamePredicate(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean evaluate(Element object) {
+            return name != null && name.equals(object.getLocalName());
+        }
+    }
+
+    /**
+     * <code>Element</code>的NodeName属性值判断类
+     */
+    private class NodeNamePredicate implements Predicate<Element> {
+
+        private String name;
+
+        public NodeNamePredicate(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean evaluate(Element object) {
+            return name != null && name.equals(object.getNodeName());
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package com.googlecode.easyec.wechat.msg.handler;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.nio.charset.Charset.forName;
-import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 /**
  * 可以处理一批的微信消息的处理链对象类

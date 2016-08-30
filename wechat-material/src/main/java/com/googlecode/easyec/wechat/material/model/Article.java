@@ -2,9 +2,7 @@ package com.googlecode.easyec.wechat.material.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang.BooleanUtils;
-
-import static org.apache.commons.lang.BooleanUtils.toBoolean;
+import org.apache.commons.lang3.BooleanUtils;
 
 /**
  * 微信永久素材图文内容的对象类
@@ -77,7 +75,7 @@ public class Article {
 
     @JsonProperty("show_cover_pic")
     public void setShowCover(String showCover) {
-        setShowCover(toBoolean(showCover, "1", "0"));
+        setShowCover(BooleanUtils.toBoolean(showCover, "1", "0"));
     }
 
     public String getContent() {

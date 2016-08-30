@@ -9,8 +9,8 @@ import com.googlecode.easyec.wechat.msg.xml.WeChatXmlObject;
 
 import static com.googlecode.easyec.wechat.msg.model.event.SubscriptionMessage.EVENT_SUBSCRIBE;
 import static com.googlecode.easyec.wechat.msg.model.event.SubscriptionMessage.EVENT_UNSUBSCRIBE;
-import static org.apache.commons.collections.CollectionUtils.size;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.collections4.CollectionUtils.size;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * 关注/取消关注/扫码关注的消息的处理类

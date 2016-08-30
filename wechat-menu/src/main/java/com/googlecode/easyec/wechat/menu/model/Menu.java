@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.googlecode.easyec.wechat.base.model.AbstractCredentialCtrl;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 /**
  * 微信自定义菜单类
@@ -38,7 +38,7 @@ public class Menu extends AbstractCredentialCtrl {
     }
 
     public void setButtons(List<Button> buttons) {
-        if (isNotEmpty(buttons)) {
+        if (CollectionUtils.isNotEmpty(buttons)) {
             this.buttons.addAll(buttons);
         }
     }

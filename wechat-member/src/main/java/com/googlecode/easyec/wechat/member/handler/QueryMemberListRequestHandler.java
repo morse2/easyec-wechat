@@ -5,7 +5,7 @@ import com.googlecode.easyec.wechat.base.handler.AbstractWeChatHttpGetRequestHan
 import com.googlecode.easyec.wechat.member.model.MemberPageList;
 import com.googlecode.easyec.wechat.member.model.QueryMemberListResult;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Created by 平功元 on 2016/3/14.
