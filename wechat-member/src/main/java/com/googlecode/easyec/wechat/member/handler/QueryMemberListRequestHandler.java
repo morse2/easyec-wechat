@@ -30,6 +30,6 @@ public class QueryMemberListRequestHandler extends AbstractWeChatHttpGetRequestH
     }
     @Override
     protected String getBusinessUri() {
-        return "/user/get";
+        return "/cgi-bin/user/get";
     }
 }

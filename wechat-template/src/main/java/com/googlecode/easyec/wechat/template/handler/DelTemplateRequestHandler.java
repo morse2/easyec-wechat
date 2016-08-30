@@ -25,6 +25,6 @@ public class DelTemplateRequestHandler extends AbstractWeChatHttpPostRequestHand
 
     @Override
     protected String getBusinessUri() {
-        return "template/del_private_template";
+        return "/cgi-bin/template/del_private_template";
     }
 }

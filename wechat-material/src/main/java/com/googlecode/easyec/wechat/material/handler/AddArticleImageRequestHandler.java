@@ -47,6 +47,6 @@ public class AddArticleImageRequestHandler extends AbstractWeChatHttpPostRequest
 
     @Override
     protected String getBusinessUri() {
-        return "/media/uploadimg";
+        return "/cgi-bin/media/uploadimg";
     }
 }

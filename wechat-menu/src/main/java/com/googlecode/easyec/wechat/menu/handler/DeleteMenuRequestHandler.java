@@ -27,6 +27,6 @@ public class DeleteMenuRequestHandler extends AbstractWeChatHttpGetRequestHandle
 
     @Override
     protected String getBusinessUri() {
-        return "/menu/delete";
+        return "/cgi-bin/menu/delete";
     }
 }

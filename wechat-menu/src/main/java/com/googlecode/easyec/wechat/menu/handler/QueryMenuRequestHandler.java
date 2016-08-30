@@ -28,6 +28,6 @@ public class QueryMenuRequestHandler extends AbstractWeChatHttpGetRequestHandler
 
     @Override
     protected String getBusinessUri() {
-        return "/menu/get";
+        return "/cgi-bin/menu/get";
     }
 }

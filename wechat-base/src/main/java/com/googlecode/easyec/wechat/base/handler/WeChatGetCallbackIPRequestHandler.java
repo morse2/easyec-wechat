@@ -23,6 +23,6 @@ public class WeChatGetCallbackIPRequestHandler extends AbstractWeChatHttpGetRequ
 
     @Override
     protected String getBusinessUri() {
-        return "/getcallbackip";
+        return "/cgi-bin/getcallbackip";
     }
 }

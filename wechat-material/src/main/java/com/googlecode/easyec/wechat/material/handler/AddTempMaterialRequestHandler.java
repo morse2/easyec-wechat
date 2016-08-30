@@ -35,7 +35,7 @@ public class AddTempMaterialRequestHandler extends AbstractWeChatHttpPostRequest
 
     @Override
     protected String getBusinessUri() {
-        return "/media/upload";
+        return "/cgi-bin/media/upload";
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.googlecode.easyec.wechat.oauth2.utils.WeChatOAuth2Utils;
 import com.googlecode.easyec.wechat.test.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Value;
 
 import static com.googlecode.easyec.wechat.oauth2.model.AuthorityEntry.Scope.snsapi_userinfo;
 
@@ -16,9 +15,6 @@ import static com.googlecode.easyec.wechat.oauth2.model.AuthorityEntry.Scope.sns
  * Created by JunJie on 4/27/16.
  */
 public class WeChatOAuthTestCase extends BaseTest {
-
-    @Value("#{p_env['wechat.api.oauthUri']}")
-    private String oauthUri;
 
     @Test
     public void buildAuthorityEntryUrl() {
@@ -40,7 +36,7 @@ public class WeChatOAuthTestCase extends BaseTest {
         wa.setCode("XXX");
 
         WebAuthorityResult result = handleRequest(
-            new WebAuthorityRequestHandler(jsonObjectFactory, oauthUri, wa)
+            new WebAuthorityRequestHandler(jsonObjectFactory, baseUri, wa)
         );
 
         Assert.assertNotNull(result);

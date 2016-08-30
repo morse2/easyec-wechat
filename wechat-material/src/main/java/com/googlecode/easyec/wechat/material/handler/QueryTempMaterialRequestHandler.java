@@ -31,7 +31,7 @@ public class QueryTempMaterialRequestHandler extends AbstractWeChatHttpGetReques
 
     @Override
     protected String getBusinessUri() {
-        return "/media/get";
+        return "/cgi-bin/media/get";
     }
 
     @Override

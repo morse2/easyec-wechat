@@ -23,6 +23,6 @@ public class GetIndustryRequestHandler extends AbstractWeChatHttpGetRequestHandl
 
     @Override
     protected String getBusinessUri() {
-        return "/template/get_industry";
+        return "/cgi-bin/template/get_industry";
     }
 }

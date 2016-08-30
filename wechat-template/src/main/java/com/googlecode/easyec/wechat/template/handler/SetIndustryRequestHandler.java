@@ -32,6 +32,6 @@ public class SetIndustryRequestHandler extends AbstractWeChatHttpPostRequestHand
 
     @Override
     protected String getBusinessUri() {
-        return "/template/api_set_industry";
+        return "/cgi-bin/template/api_set_industry";
     }
 }

@@ -23,6 +23,6 @@ public class GetTemplateListRequestHandler extends AbstractWeChatHttpGetRequestH
 
     @Override
     protected String getBusinessUri() {
-        return "/template/get_all_private_template";
+        return "/cgi-bin/template/get_all_private_template";
     }
 }

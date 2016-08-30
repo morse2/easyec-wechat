@@ -39,6 +39,6 @@ public class AddArticleRequestHandler extends AbstractWeChatHttpPostRequestHandl
 
     @Override
     protected String getBusinessUri() {
-        return "/material/add_news";
+        return "/cgi-bin/material/add_news";
     }
 }

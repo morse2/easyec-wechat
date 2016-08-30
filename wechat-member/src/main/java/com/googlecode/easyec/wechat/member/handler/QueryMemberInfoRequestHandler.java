@@ -26,6 +26,6 @@ public class QueryMemberInfoRequestHandler extends AbstractWeChatHttpGetRequestH
 
     @Override
     protected String getBusinessUri() {
-         return "/user/info";
+         return "/cgi-bin/user/info";
     }
 }

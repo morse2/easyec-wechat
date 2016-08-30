@@ -31,6 +31,6 @@ public class WebAuthorityRequestHandler extends AbstractWeChatHttpGetRequestHand
 
     @Override
     protected String getBusinessUri() {
-        return "/oauth2/access_token";
+        return "/sns/oauth2/access_token";
     }
 }

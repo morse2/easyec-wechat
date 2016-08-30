@@ -28,6 +28,6 @@ public class WeChatAccessTokenRequestHandler extends AbstractWeChatHttpGetReques
 
     @Override
     protected String getBusinessUri() {
-        return "/token";
+        return "/cgi-bin/token";
     }
 }

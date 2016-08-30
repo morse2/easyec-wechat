@@ -38,7 +38,7 @@ public class AddMaterialRequestHandler extends AbstractWeChatHttpPostRequestHand
 
     @Override
     protected String getBusinessUri() {
-        return "/material/add_material";
+        return "/cgi-bin/material/add_material";
     }
 
     @Override

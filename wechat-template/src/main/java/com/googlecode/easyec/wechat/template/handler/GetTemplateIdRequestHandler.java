@@ -25,6 +25,6 @@ public class GetTemplateIdRequestHandler extends AbstractWeChatHttpPostRequestHa
 
     @Override
     protected String getBusinessUri() {
-        return "/template/api_add_template";
+        return "/cgi-bin/template/api_add_template";
     }
 }

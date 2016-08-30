@@ -35,6 +35,6 @@ public class SendTemplateMessageRequestHandler extends AbstractWeChatHttpPostReq
 
     @Override
     protected String getBusinessUri() {
-        return "/message/template/send";
+        return "/cgi-bin/message/template/send";
     }
 }

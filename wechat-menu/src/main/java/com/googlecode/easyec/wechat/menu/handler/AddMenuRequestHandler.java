@@ -38,6 +38,6 @@ public class AddMenuRequestHandler extends AbstractWeChatHttpPostRequestHandler<
 
     @Override
     protected String getBusinessUri() {
-        return "/menu/create";
+        return "/cgi-bin/menu/create";
     }
 }

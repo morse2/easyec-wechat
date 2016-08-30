@@ -33,6 +33,6 @@ public class WebGetUserInfoRequestHandler extends AbstractWeChatHttpGetRequestHa
 
     @Override
     protected String getBusinessUri() {
-        return "/userinfo";
+        return "/sns/userinfo";
     }
 }

@@ -39,6 +39,6 @@ public class BatchGetMaterialsRequestHandler extends AbstractWeChatHttpPostReque
 
     @Override
     protected String getBusinessUri() {
-        return "/material/batchget_material";
+        return "/cgi-bin/material/batchget_material";
     }
 }
