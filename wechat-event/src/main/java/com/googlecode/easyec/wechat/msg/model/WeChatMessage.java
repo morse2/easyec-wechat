@@ -1,5 +1,8 @@
 package com.googlecode.easyec.wechat.msg.model;
 
+import com.googlecode.easyec.wechat.xml.annotation.XmlElementMapping;
+import com.googlecode.easyec.wechat.xml.converter.impl.DatetimeElementConverter;
+
 import java.util.Date;
 
 /**
@@ -18,6 +21,7 @@ public abstract class WeChatMessage {
         return from;
     }
 
+    @XmlElementMapping(name = "FromUserName")
     public void setFrom(String from) {
         this.from = from;
     }
@@ -26,6 +30,7 @@ public abstract class WeChatMessage {
         return to;
     }
 
+    @XmlElementMapping(name = "ToUserName")
     public void setTo(String to) {
         this.to = to;
     }
@@ -34,6 +39,7 @@ public abstract class WeChatMessage {
         return createTime;
     }
 
+    @XmlElementMapping(name = "CreateTime", converter = DatetimeElementConverter.class)
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
@@ -42,6 +48,7 @@ public abstract class WeChatMessage {
         return msgType;
     }
 
+    @XmlElementMapping(name = "MsgType")
     public void setMsgType(String msgType) {
         this.msgType = msgType;
     }

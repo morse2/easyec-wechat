@@ -5,11 +5,10 @@ import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
 import com.googlecode.easyec.wechat.msg.model.event.QRSubscriptionMessage;
 import com.googlecode.easyec.wechat.msg.model.event.SubscriptionMessage;
 import com.googlecode.easyec.wechat.msg.model.event.WeChatEventMessage;
-import com.googlecode.easyec.wechat.msg.xml.WeChatXmlObject;
+import com.googlecode.easyec.wechat.xml.WeChatXmlData;
 
 import static com.googlecode.easyec.wechat.msg.model.event.SubscriptionMessage.EVENT_SUBSCRIBE;
 import static com.googlecode.easyec.wechat.msg.model.event.SubscriptionMessage.EVENT_UNSUBSCRIBE;
-import static org.apache.commons.collections4.CollectionUtils.size;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
@@ -36,13 +35,11 @@ public abstract class SubscriptionMessageHandler extends WeChatEventMessageHandl
     }
 
     @Override
-    protected SubscriptionMessage createInstance(WeChatXmlObject obj) {
-        SubscriptionMessage msg;
-
-        if (size(obj.getElements()) > 1) {
-            msg = new QRSubscriptionMessage();
-        } else msg = new SubscriptionMessage();
-
-        return msg;
+    protected SubscriptionMessage createInstance(WeChatXmlData obj) {
+        return obj.resolve(
+            obj.hasElements()
+                ? QRSubscriptionMessage.class
+                : SubscriptionMessage.class
+        );
     }
 }

@@ -24,6 +24,15 @@ public class WeChatUtils {
     private WeChatUtils() { /* no op */ }
 
     /**
+     * 返回微信公众号的基础URI
+     *
+     * @return https开头的URI
+     */
+    public static String getBaseUri() {
+        return "https://api.weixin.qq.com";
+    }
+
+    /**
      * 解析微信返回的时间戳内容
      *
      * @param dateStr 日期时间戳

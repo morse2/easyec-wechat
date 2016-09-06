@@ -1,7 +1,7 @@
 package com.googlecode.easyec.wechat.msg.model.impl;
 
-import com.googlecode.easyec.wechat.msg.annotation.XmlElementMapping;
 import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
+import com.googlecode.easyec.wechat.xml.annotation.XmlElementMapping;
 
 /**
  * 微信纯文本消息对象类

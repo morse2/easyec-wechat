@@ -15,6 +15,7 @@
         <module>wechat-template</module>
         <module>wechat-event</module>
         <module>wechat-jssdk</module>
+        <module>wechat-pay</module>
     </modules>
     <name>WeChat</name>
     <url>http://code.google.com/p/easyec</url>
@@ -73,7 +74,7 @@
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>spirit-web</artifactId>
-            <version>[0.6.4.1-SNAPSHOT,]</version>
+            <version>[0.7.0-SNAPSHOT,]</version>
         </dependency>
 
         <dependency>

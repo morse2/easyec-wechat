@@ -4,7 +4,7 @@ import com.googlecode.easyec.spirit.web.webservice.factory.StreamObjectFactory;
 import com.googlecode.easyec.wechat.msg.handler.WeChatXmlMessageHandler;
 import com.googlecode.easyec.wechat.msg.model.WeChatMessage;
 import com.googlecode.easyec.wechat.msg.model.impl.WeChatTextMessage;
-import com.googlecode.easyec.wechat.msg.xml.WeChatXmlObject;
+import com.googlecode.easyec.wechat.xml.WeChatXmlData;
 
 /**
  * 处理微信文本消息的实现类
@@ -23,7 +23,7 @@ public abstract class WeChatTextMessageHandler extends WeChatXmlMessageHandler<W
     }
 
     @Override
-    protected WeChatTextMessage createInstance(WeChatXmlObject obj) {
-        return new WeChatTextMessage();
+    protected WeChatTextMessage createInstance(WeChatXmlData obj) {
+        return obj.resolve(WeChatTextMessage.class);
     }
 }

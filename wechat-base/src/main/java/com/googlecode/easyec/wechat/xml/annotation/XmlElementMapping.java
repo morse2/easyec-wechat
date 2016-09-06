@@ -1,7 +1,7 @@
-package com.googlecode.easyec.wechat.msg.annotation;
+package com.googlecode.easyec.wechat.xml.annotation;
 
-import com.googlecode.easyec.wechat.msg.converter.StringXmlContentConverter;
-import com.googlecode.easyec.wechat.msg.converter.XmlContentConverter;
+import com.googlecode.easyec.wechat.xml.converter.impl.DefaultXmlElementConverter;
+import com.googlecode.easyec.wechat.xml.converter.XmlElementConverter;
 
 import java.lang.annotation.*;
 
@@ -23,5 +23,5 @@ public @interface XmlElementMapping {
     /**
      * 指定一个XML数据转换的类
      */
-    Class<? extends XmlContentConverter> converter() default StringXmlContentConverter.class;
+    Class<? extends XmlElementConverter<?>> converter() default DefaultXmlElementConverter.class;
 }

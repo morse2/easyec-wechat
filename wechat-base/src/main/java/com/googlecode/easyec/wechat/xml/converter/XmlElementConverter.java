@@ -1,11 +1,11 @@
-package com.googlecode.easyec.wechat.msg.converter;
+package com.googlecode.easyec.wechat.xml.converter;
 
 /**
  * XML元素内容的转换类
  *
  * @author JunJie
  */
-public interface XmlContentConverter<T> {
+public interface XmlElementConverter<T> {
 
     /**
      * 指定XML内容要转换为一个对象
