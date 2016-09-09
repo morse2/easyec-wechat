@@ -5,13 +5,13 @@ import com.googlecode.easyec.wechat.base.handler.AbstractWeChatHttpPostRequestHa
 import com.googlecode.easyec.wechat.material.model.AddMaterial;
 import com.googlecode.easyec.wechat.material.model.AddMaterialResult;
 import org.apache.http.HttpEntity;
-import org.apache.http.entity.mime.FormBodyPart;
-import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.FormBodyPartBuilder;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,15 +43,17 @@ public class AddMaterialRequestHandler extends AbstractWeChatHttpPostRequestHand
 
     @Override
     protected HttpEntity createPostEntity() throws Exception {
-        MultipartEntity multipartEntity = new MultipartEntity();
-        multipartEntity.addPart(
-            new FormBodyPart("media",
-                new ByteArrayBody(
-                    getBean().getContent(),
-                    getBean().getName()
-                )
-            )
-        );
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create()
+            .addPart(
+                FormBodyPartBuilder.create()
+                    .setName("media")
+                    .setBody(
+                        new ByteArrayBody(
+                            getBean().getContent(),
+                            getBean().getName()
+                        )
+                    ).build()
+            );
 
         switch (getBean().getType()) {
             case video:
@@ -59,17 +61,18 @@ public class AddMaterialRequestHandler extends AbstractWeChatHttpPostRequestHand
                 descriptionMap.put("introduction", getBean().getDescription());
                 descriptionMap.put("title", getBean().getTitle());
 
-                multipartEntity.addPart(
-                    new FormBodyPart(
-                        "description",
-                        new StringBody(
-                            new String(getObjectFactory().writeValue(descriptionMap)),
-                            "text/json", Charset.forName("UTF-8")
-                        )
-                    )
+                builder.addPart(
+                    FormBodyPartBuilder.create()
+                        .setName("description")
+                        .setBody(
+                            new StringBody(
+                                new String(getObjectFactory().writeValue(descriptionMap)),
+                                ContentType.APPLICATION_JSON
+                            )
+                        ).build()
                 );
         }
 
-        return multipartEntity;
+        return builder.build();
     }
 }

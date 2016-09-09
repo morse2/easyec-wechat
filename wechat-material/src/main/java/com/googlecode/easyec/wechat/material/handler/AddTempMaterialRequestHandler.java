@@ -2,11 +2,11 @@ package com.googlecode.easyec.wechat.material.handler;
 
 import com.googlecode.easyec.spirit.web.webservice.factory.StreamObjectFactory;
 import com.googlecode.easyec.wechat.base.handler.AbstractWeChatHttpPostRequestHandler;
-import com.googlecode.easyec.wechat.material.model.AddTempMaterialResult;
 import com.googlecode.easyec.wechat.material.model.AddTempMaterial;
+import com.googlecode.easyec.wechat.material.model.AddTempMaterialResult;
 import org.apache.http.HttpEntity;
-import org.apache.http.entity.mime.FormBodyPart;
-import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.FormBodyPartBuilder;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 
 import java.io.IOException;
@@ -40,16 +40,16 @@ public class AddTempMaterialRequestHandler extends AbstractWeChatHttpPostRequest
 
     @Override
     public HttpEntity createPostEntity() throws Exception {
-        MultipartEntity multipartEntity = new MultipartEntity();
-        multipartEntity.addPart(
-            new FormBodyPart("file",
-                new ByteArrayBody(
-                    getBean().getContent(),
-                    getBean().getName()
-                )
-            )
-        );
-
-        return multipartEntity;
+        return MultipartEntityBuilder.create()
+            .addPart(
+                FormBodyPartBuilder.create()
+                    .setName("file")
+                    .setBody(
+                        new ByteArrayBody(
+                            getBean().getContent(),
+                            getBean().getName()
+                        )
+                    ).build()
+            ).build();
     }
 }

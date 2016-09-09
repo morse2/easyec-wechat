@@ -5,8 +5,8 @@ import com.googlecode.easyec.wechat.base.handler.AbstractWeChatHttpPostRequestHa
 import com.googlecode.easyec.wechat.material.model.AddArticleImage;
 import com.googlecode.easyec.wechat.material.model.AddArticleImageResult;
 import org.apache.http.HttpEntity;
-import org.apache.http.entity.mime.FormBodyPart;
-import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.FormBodyPartBuilder;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 
 import java.io.IOException;
@@ -32,17 +32,13 @@ public class AddArticleImageRequestHandler extends AbstractWeChatHttpPostRequest
 
     @Override
     protected HttpEntity createPostEntity() throws Exception {
-        MultipartEntity multipartEntity = new MultipartEntity();
-        multipartEntity.addPart(
-            new FormBodyPart("file",
-                new ByteArrayBody(
-                    getBean().getData(),
-                    getBean().getName()
-                )
-            )
-        );
-
-        return multipartEntity;
+        return MultipartEntityBuilder.create()
+            .addPart(
+                FormBodyPartBuilder.create()
+                    .setName("file")
+                    .setBody(new ByteArrayBody(getBean().getData(), getBean().getName()))
+                    .build()
+            ).build();
     }
 
     @Override
