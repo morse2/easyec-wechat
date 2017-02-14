@@ -16,6 +16,7 @@
         <module>wechat-event</module>
         <module>wechat-jssdk</module>
         <module>wechat-pay</module>
+        <module>wechat-cards</module>
     </modules>
     <name>WeChat</name>
     <url>http://code.google.com/p/easyec</url>
