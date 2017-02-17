@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author JunJie
  */
-@JsonIgnoreProperties("msgid")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeChatError {
 
     @JsonProperty("errcode")
