@@ -1,6 +1,7 @@
 package com.googlecode.easyec.wechat.cards.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -10,8 +11,13 @@ import java.io.Serializable;
  *
  * @author JunJie
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true,
+        value = {"dateType"}
+)
 public class CardDateInfo implements Serializable {
+
+    private static final long serialVersionUID = 5413635463308789753L;
 
     public enum DateType {
         /**
@@ -21,7 +27,11 @@ public class CardDateInfo implements Serializable {
         /**
          * 表示固定日期区间
          */
-        FixTimeRange("DATE_TYPE_FIX_TIME_RANGE");
+        FixTimeRange("DATE_TYPE_FIX_TIME_RANGE"),
+        /**
+         * 表示永久有效
+         */
+        Permanent("DATE_TYPE_PERMANENT");
 
         private String value;
 

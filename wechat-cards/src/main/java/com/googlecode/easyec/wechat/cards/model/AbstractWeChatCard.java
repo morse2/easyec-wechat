@@ -18,7 +18,7 @@ public abstract class AbstractWeChatCard extends AbstractCredentialCtrl implemen
     private static final long serialVersionUID = 6186687394542476430L;
     private String cardType;
     @JsonProperty(value = "base_info", required = true)
-    private WeChatCardBaseInfo baseInfo;
+    private WeChatCardBaseInfoImpl baseInfo;
     @JsonProperty("advanced_info")
     private WeChatCardAdvancedInfo advancedInfo;
 
@@ -32,11 +32,11 @@ public abstract class AbstractWeChatCard extends AbstractCredentialCtrl implemen
         return cardType;
     }
 
-    public WeChatCardBaseInfo getBaseInfo() {
+    public WeChatCardBaseInfoImpl getBaseInfo() {
         return baseInfo;
     }
 
-    public void setBaseInfo(WeChatCardBaseInfo baseInfo) {
+    public void setBaseInfo(WeChatCardBaseInfoImpl baseInfo) {
         this.baseInfo = baseInfo;
     }
 

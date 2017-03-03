@@ -1,11 +1,11 @@
 package com.googlecode.easyec.wechat.cards.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.googlecode.easyec.wechat.cards.WeChatCardCodeType;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +14,12 @@ import java.util.List;
  *
  * @author JunJie
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WeChatCardBaseInfo implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(
+        ignoreUnknown = true,
+        value = {"cardCodeType"}
+)
+public class WeChatCardBaseInfoImpl extends AbstractWeChatCardBaseInfo {
 
     /**
      * 表示该卡券为预存code模式卡券，
@@ -42,13 +46,13 @@ public class WeChatCardBaseInfo implements Serializable {
     @JsonProperty(required = true)
     private CardSku sku;                               // 商品信息
     @JsonProperty(value = "date_info", required = true)
-    private CardDateInfo dateInfo;                     // 使用日期
+    private CardDateInfo dateInfo;                     // 使用日期  *
 
     // ----- 卡券非必填字段
     @JsonProperty("use_custom_code")
     private boolean useCustomCode;                     // 是否自定义Code码
     @JsonProperty("get_custom_code_mode")
-    private String customCodeMode;                     // 填入GET_CUSTOM_CODE_MODE_DEPOSIT，表示该卡券为预存code模式卡券
+    private String customCodeMode;                     // 填入GET_CUSTOM_CODE_MODE_DEPOSIT，表示该卡券为预存code模式卡券  *
     @JsonProperty("bind_openid")
     private boolean bindOpenId;                        // 默认为false。通常指定特殊用户群体
     @JsonProperty("service_phone")

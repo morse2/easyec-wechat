@@ -1,7 +1,11 @@
 package com.googlecode.easyec.wechat.test.cards;
 
+import com.googlecode.easyec.wechat.cards.handler.QueryCodeRequestHandler;
 import com.googlecode.easyec.wechat.cards.model.LandingPage;
+import com.googlecode.easyec.wechat.cards.model.QueryCode;
+import com.googlecode.easyec.wechat.cards.model.QueryCodeResult;
 import com.googlecode.easyec.wechat.test.BaseTest;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class WeChatCardsTest extends BaseTest {
@@ -27,5 +31,18 @@ public class WeChatCardsTest extends BaseTest {
 
         byte[] bs = jsonObjectFactory.writeValue(page);
         System.out.println(new String(bs, "utf-8"));
+    }
+
+    @Test
+    public void queryCode() throws Exception {
+
+        QueryCode queryCode = new QueryCode();
+        queryCode.setCredential(getCredential());
+        queryCode.setCardId("card_id_123+");
+        queryCode.setCode("123456789");
+        queryCode.setCheckConsume(true);
+
+        QueryCodeResult result = handleRequest(new QueryCodeRequestHandler(jsonObjectFactory, baseUri, queryCode));
+        Assert.assertNotNull(result);
     }
 }
