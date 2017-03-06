@@ -1,12 +1,22 @@
 package com.googlecode.easyec.wechat.test.cards;
 
-import com.googlecode.easyec.wechat.cards.handler.*;
+import com.googlecode.easyec.wechat.cards.handler.QueryCodeRequestHandler;
 import com.googlecode.easyec.wechat.cards.model.*;
 import com.googlecode.easyec.wechat.test.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class WeChatCardsTest extends BaseTest {
+
+    @Test
+    public void createGroupon() throws Exception {
+        WeChatGroupon groupon = new WeChatGroupon();
+        groupon.getCardInfo().getBaseInfo().setBindOpenId(false);
+        groupon.getCardInfo().getBaseInfo().setBrandName("AABBCC");
+
+        CreateWeChatCard card = new CreateWeChatCard(groupon);
+        System.out.println(new String(jsonObjectFactory.writeValue(card), "utf-8"));
+    }
 
     @Test
     public void createLandingPage() throws Exception {

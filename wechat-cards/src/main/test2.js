@@ -1,10 +1,15 @@
 var json = {
-    "title": "惠城优惠大派送",
-    "scene": "SCENE_MENU",
-    "banner": "http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFN",
-    "can_share": false,
-    "card_list": [
-        {"card_id": "pXch-jnOlGtbuWwIO2NDftZeynRE", "thumb_url": "www.qq.com/a.jpg"},
-        {"card_id": "pXch-jnAN-ZBoRbiwgqBZ1RV60fI", "thumb_url": "www.qq.com/b.jpg"}
-    ]
+    "card": {
+        "credential": null,
+        "base_info": {
+            "brand_name": "AABBCC",
+            "use_custom_code": false,
+            "bind_openid": false,
+            "use_all_locations": false,
+            "get_limit": 50,
+            "use_limit": 50
+        },
+        "advanced_info": null,
+        "deal_detail": null
+    }, "card_type": "GROUPON"
 };

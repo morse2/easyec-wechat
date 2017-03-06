@@ -5,7 +5,7 @@ package com.googlecode.easyec.wechat.cards;
  *
  * @author JunJie
  */
-public enum WeChatVipCardNameType {
+public enum WeChatCardNameType {
 
     /**
      * 等级
@@ -42,7 +42,7 @@ public enum WeChatVipCardNameType {
 
     private String value;
 
-    WeChatVipCardNameType(String value) {
+    WeChatCardNameType(String value) {
         this.value = value;
     }
 

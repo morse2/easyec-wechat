@@ -11,12 +11,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(
-        ignoreUnknown = true,
-        value = {"cardCodeType"}
+    ignoreUnknown = true,
+    value = { "cardCodeType" }
 )
-public class WeChatVipCardBaseInfo extends AbstractWeChatCardBaseInfo {
+public class WeChatMemberCardBaseInfo extends AbstractWeChatCardBaseInfo {
 
-    private static final long serialVersionUID = -8575178088053529965L;
+    private static final long serialVersionUID = -2055897504919895364L;
     private PayInfo payInfo;                        //支付功能结构体
     private MemberCardDateInfo dateInfo;           // 使用日期
 

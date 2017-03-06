@@ -2,7 +2,6 @@ package com.googlecode.easyec.wechat.cards.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.googlecode.easyec.wechat.base.model.AbstractCredentialCtrl;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -12,39 +11,29 @@ import java.io.Serializable;
  *
  * @author JunJie
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractWeChatCard extends AbstractCredentialCtrl implements Serializable {
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = { "cardInfo" }
+)
+public abstract class AbstractWeChatCard<T extends AbstractWeChatCardInfo> implements Serializable {
 
-    private static final long serialVersionUID = 6186687394542476430L;
+    private static final long serialVersionUID = 1757690989108471214L;
+    @JsonProperty("card_type")
     private String cardType;
-    @JsonProperty(value = "base_info", required = true)
-    private WeChatCardBaseInfoImpl baseInfo;
-    @JsonProperty("advanced_info")
-    private WeChatCardAdvancedInfo advancedInfo;
+    protected T cardInfo;
 
-    protected AbstractWeChatCard(String cardType) {
-        Assert.notNull(cardType);
-        this.cardType = cardType;
+    protected AbstractWeChatCard(T cardInfo) {
+        Assert.notNull(cardInfo);
+        this.cardInfo = cardInfo;
     }
 
-    @JsonProperty("card_type")
     public String getCardType() {
         return cardType;
     }
 
-    public WeChatCardBaseInfoImpl getBaseInfo() {
-        return baseInfo;
+    protected void setCardType(String cardType) {
+        this.cardType = cardType;
     }
 
-    public void setBaseInfo(WeChatCardBaseInfoImpl baseInfo) {
-        this.baseInfo = baseInfo;
-    }
-
-    public WeChatCardAdvancedInfo getAdvancedInfo() {
-        return advancedInfo;
-    }
-
-    public void setAdvancedInfo(WeChatCardAdvancedInfo advancedInfo) {
-        this.advancedInfo = advancedInfo;
-    }
+    abstract public T getCardInfo();
 }
