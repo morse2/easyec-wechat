@@ -2,6 +2,7 @@ package com.googlecode.easyec.wechat.test.member;
 
 import com.googlecode.easyec.wechat.cards.WeChatCardCodeType;
 import com.googlecode.easyec.wechat.cards.handler.CreateWeChatVipCardRequestHandler;
+import com.googlecode.easyec.wechat.cards.handler.GetUserCardListRequestHandler;
 import com.googlecode.easyec.wechat.cards.model.*;
 import com.googlecode.easyec.wechat.member.handler.QueryMemberInfoRequestHandler;
 import com.googlecode.easyec.wechat.member.handler.QueryMemberListRequestHandler;
@@ -97,6 +98,15 @@ public class WeChatMemberTest extends BaseTest {
         Assert.assertNotNull(result);
     }
 
+    @Test
+    public void getUserCardList() throws Exception {
+        GetUserCardList list = new GetUserCardList();
+        list.setCredential(getCredential());
+        list.setCardId("12312313");
+        list.setOpenId("Xxxxxxxxx");
 
+        GetUserCardListResult result = handleRequest(new GetUserCardListRequestHandler(jsonObjectFactory, baseUri, list));
+        Assert.assertNotNull(result);
+    }
 
 }

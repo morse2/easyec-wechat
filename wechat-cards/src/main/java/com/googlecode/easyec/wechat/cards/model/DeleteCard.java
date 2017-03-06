@@ -6,21 +6,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.googlecode.easyec.wechat.base.model.AbstractCredentialCtrl;
 
 /**
- * 核销卡券接口
+ * 卡券管理 删除卡券
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(
         ignoreUnknown = true,
         value = "credential"
 )
-public class VerificationCard extends AbstractCredentialCtrl {
+public class DeleteCard extends AbstractCredentialCtrl {
 
-    @JsonProperty(value = "card_id")
-    private String cardId;                              //单张卡券的唯一标准
+    private String cardId;                      //卡券ID
 
-    @JsonProperty(value = "code", required = true)
-    private String code;                                //卡券ID代表一类卡券。自定义code卡券必填。
-
+    @JsonProperty(value = "card_id", required = true)
     public String getCardId() {
         return cardId;
     }
@@ -29,11 +26,6 @@ public class VerificationCard extends AbstractCredentialCtrl {
         this.cardId = cardId;
     }
 
-    public String getCode() {
-        return code;
-    }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+
 }

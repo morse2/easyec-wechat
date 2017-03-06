@@ -13,14 +13,14 @@ import com.googlecode.easyec.wechat.base.model.AbstractCredentialCtrl;
         ignoreUnknown = true,
         value = "credential"
 )
-public class VerificationCardResult extends AbstractCredentialCtrl {
+public class ConsumeCard extends AbstractCredentialCtrl {
 
     @JsonProperty(value = "card_id")
     private String cardId;                              //单张卡券的唯一标准
 
     @JsonProperty(value = "code", required = true)
     private String code;                                //卡券ID代表一类卡券。自定义code卡券必填。
-    
+
     public String getCardId() {
         return cardId;
     }

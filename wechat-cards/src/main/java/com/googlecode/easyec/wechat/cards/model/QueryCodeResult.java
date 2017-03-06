@@ -10,12 +10,7 @@ import java.io.Serializable;
  * 核销 查询code 返回信息
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class QueryCodeResult implements Serializable {
-
-    private String errcode;                         //错误码
-
-    private String errmsg;                          //错误信息
-
+public class QueryCodeResult extends BaseResult implements Serializable {
     private String openId;                          //用户OPENID
 
     private QueryCodeResultCard codeResultCard;
@@ -23,16 +18,6 @@ public class QueryCodeResult implements Serializable {
     private boolean canConsume;                     //是否可以核销，true为可以核销，false为不可核销
 
     private QueryCardStatus userCardStatus;
-
-    @JsonProperty("errcode")
-    public void setErrcode(String errcode) {
-        this.errcode = errcode;
-    }
-
-    @JsonProperty("errmsg")
-    public void setErrmsg(String errmsg) {
-        this.errmsg = errmsg;
-    }
 
     @JsonProperty("openid")
     public void setOpenId(String openId) {
@@ -52,14 +37,6 @@ public class QueryCodeResult implements Serializable {
     @JsonProperty("user_card_status")
     public void setUserCardStatus(QueryCardStatus userCardStatus) {
         this.userCardStatus = userCardStatus;
-    }
-
-    public String getErrcode() {
-        return errcode;
-    }
-
-    public String getErrmsg() {
-        return errmsg;
     }
 
     public String getOpenId() {
