@@ -1,6 +1,6 @@
 package com.googlecode.easyec.wechat.test.cards;
 
-import com.googlecode.easyec.wechat.cards.handler.QueryCodeRequestHandler;
+import com.googlecode.easyec.wechat.cards.handler.*;
 import com.googlecode.easyec.wechat.cards.model.*;
 import com.googlecode.easyec.wechat.test.BaseTest;
 import org.junit.Assert;
