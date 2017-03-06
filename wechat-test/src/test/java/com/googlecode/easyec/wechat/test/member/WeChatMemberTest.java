@@ -1,7 +1,7 @@
 package com.googlecode.easyec.wechat.test.member;
 
 import com.googlecode.easyec.wechat.cards.WeChatCardCodeType;
-import com.googlecode.easyec.wechat.cards.handler.CreateWeChatVipCardRequestHandler;
+import com.googlecode.easyec.wechat.cards.handler.CreateWeChatCardRequestHandler;
 import com.googlecode.easyec.wechat.cards.model.*;
 import com.googlecode.easyec.wechat.member.handler.QueryMemberInfoRequestHandler;
 import com.googlecode.easyec.wechat.member.handler.QueryMemberListRequestHandler;
@@ -12,9 +12,6 @@ import com.googlecode.easyec.wechat.test.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * Created by 平功元 on 2016/3/9.
@@ -23,11 +20,11 @@ public class WeChatMemberTest extends BaseTest {
 
     @Test
     public void queryMemberInfo() throws Exception {
-       Member member = new Member();
+        Member member = new Member();
         member.setOpenId("osxcMxJyF-S481H4XYGp4EWAIvLQ");
         member.setCredential(getCredential());
         Member result = handleRequest(
-                new QueryMemberInfoRequestHandler(jsonObjectFactory, baseUri, member)
+            new QueryMemberInfoRequestHandler(jsonObjectFactory, baseUri, member)
         );
         Assert.assertNotNull(result);
     }
@@ -38,7 +35,7 @@ public class WeChatMemberTest extends BaseTest {
         //memberPageList.setNextOpenId("osxcMxJyF-S481H4XYGp4EWAIvLQ");
         memberPageList.setCredential(getCredential());
         QueryMemberListResult result = handleRequest(
-                new QueryMemberListRequestHandler(jsonObjectFactory,baseUri,memberPageList)
+            new QueryMemberListRequestHandler(jsonObjectFactory, baseUri, memberPageList)
         );
         Assert.assertNotNull(result);
     }
@@ -46,9 +43,9 @@ public class WeChatMemberTest extends BaseTest {
 
     @Test
     public void createMember() throws Exception {
+        WeChatMemberCard memberCard = new WeChatMemberCard();
 
-
-        WeChatVipCardBaseInfo baseInfo = new WeChatVipCardBaseInfo();
+        WeChatMemberCardBaseInfo baseInfo = (WeChatMemberCardBaseInfo) memberCard.getCardInfo().getBaseInfo();
         baseInfo.setLogoUrl("http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0");
         baseInfo.setBrandName("商户名字");
         baseInfo.setCardCodeType(WeChatCardCodeType.Text);
@@ -75,28 +72,21 @@ public class WeChatMemberTest extends BaseTest {
         baseInfo.setNeedPushOnView(true);
 
         //member card
-        WeChatVipMemberCard memberCard = new WeChatVipMemberCard();
         memberCard.setBackgroundPicUrl("https://mmbiz.qlogo.cn/mmbiz/");
         memberCard.setPrerogative("test_prerogative");
         memberCard.setAutoActive(true);
         memberCard.setSupplyBonus(true);
         memberCard.setSupplyBalance(false);
         memberCard.setActivateUrl("http://www.qq.com");
-        memberCard.setBaseInfo(baseInfo);
         memberCard.setDiscount(10);
 
-        WeChatVipMember weChatVipMember = new WeChatVipMember();
-        weChatVipMember.setMemberCard(memberCard);
+        CreateWeChatCard card = new CreateWeChatCard(memberCard);
+        card.setCredential(getCredential());
 
-        //card
-        CreateVipCard createVipCard = new CreateVipCard(weChatVipMember);
-        createVipCard.setCard(weChatVipMember);
-        createVipCard.setCredential(getCredential());
+        CreateWeChatCardResult result = handleRequest(
+            new CreateWeChatCardRequestHandler(jsonObjectFactory, baseUri, card)
+        );
 
-        CreateVipCardResult result = handleRequest(new CreateWeChatVipCardRequestHandler(jsonObjectFactory, baseUri, createVipCard));
         Assert.assertNotNull(result);
     }
-
-
-
 }

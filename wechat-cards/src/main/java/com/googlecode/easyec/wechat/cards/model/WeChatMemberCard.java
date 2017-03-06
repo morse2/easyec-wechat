@@ -3,20 +3,19 @@ package com.googlecode.easyec.wechat.cards.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.googlecode.easyec.wechat.base.model.AbstractCredentialCtrl;
 
-import java.io.Serializable;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
- * 表示微信卡券中的会员卡类型的对象类
+ * 微信卡券管理中会员卡数据结构的对象类
+ *
+ * @author JunJie
  */
+@JsonInclude(NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class WeChatVipMemberCard extends AbstractCredentialCtrl implements Serializable {
+public class WeChatMemberCard extends AbstractWeChatCard<WeChatMemberCardInfo> {
 
-    private static final long serialVersionUID = -4730596562717210554L;
-
-
+    private static final long serialVersionUID = -4622587281400618364L;
     @JsonProperty(value = "discount")
     private int discount;                                   //折扣，该会员卡享受的折扣优惠,填10就是九折
 
@@ -74,20 +73,17 @@ public class WeChatVipMemberCard extends AbstractCredentialCtrl implements Seria
     @JsonProperty(value = "bonus_rule")
     private BonusRule bonusRule;                             //积分规则
 
-
-    @JsonProperty(value = "base_info", required = true)
-    private WeChatVipCardBaseInfo baseInfo;
-
-    @JsonProperty(value = "advanced_info", required = true)
-    private WeChatCardAdvancedInfo advancedInfo;
-
-
-    public WeChatVipCardBaseInfo getBaseInfo() {
-        return baseInfo;
+    public WeChatMemberCard() {
+        super(new WeChatMemberCardInfo());
+        setCardType("MEMBER_CARD");
     }
 
-    public void setBaseInfo(WeChatVipCardBaseInfo baseInfo) {
-        this.baseInfo = baseInfo;
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     public String getPrerogative() {
@@ -234,11 +230,9 @@ public class WeChatVipMemberCard extends AbstractCredentialCtrl implements Seria
         this.bonusRule = bonusRule;
     }
 
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
+    @Override
+    @JsonProperty("member_card")
+    public WeChatMemberCardInfo getCardInfo() {
+        return this.cardInfo;
     }
 }

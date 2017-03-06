@@ -26,7 +26,7 @@ public class CreateWeChatCardRequestHandler extends AbstractWeChatHttpPostReques
     protected String createQueryString() throws IOException {
         return new StringBuffer()
             .append("access_token=")
-            .append(getBean().getCard().getCredential().getAccessToken())
+            .append(getBean().getCredential().getAccessToken())
             .toString();
     }
 
