@@ -16,15 +16,15 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @JsonInclude(NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractWeChatCardInfo implements Serializable {
+public abstract class AbstractWeChatCardInfo<B extends AbstractWeChatCardBaseInfo> implements Serializable {
 
-    private static final long serialVersionUID = -2961311120899158761L;
+    private static final long serialVersionUID = 4587686392354079694L;
     @JsonProperty(value = "base_info", required = true)
-    private AbstractWeChatCardBaseInfo baseInfo;
+    private B baseInfo;
     @JsonProperty("advanced_info")
     private WeChatCardAdvancedInfo advancedInfo;
 
-    protected AbstractWeChatCardInfo(AbstractWeChatCardBaseInfo baseInfo, WeChatCardAdvancedInfo advancedInfo) {
+    protected AbstractWeChatCardInfo(B baseInfo, WeChatCardAdvancedInfo advancedInfo) {
         Assert.notNull(baseInfo, "WeChat base info must be present.");
         Assert.notNull(advancedInfo, "WeChat advanced info must be present.");
 
@@ -32,8 +32,16 @@ public abstract class AbstractWeChatCardInfo implements Serializable {
         this.advancedInfo = advancedInfo;
     }
 
-    public AbstractWeChatCardBaseInfo getBaseInfo() {
+    public void setBaseInfo(B baseInfo) {
+        this.baseInfo = baseInfo;
+    }
+
+    public B getBaseInfo() {
         return baseInfo;
+    }
+
+    public void setAdvancedInfo(WeChatCardAdvancedInfo advancedInfo) {
+        this.advancedInfo = advancedInfo;
     }
 
     public WeChatCardAdvancedInfo getAdvancedInfo() {

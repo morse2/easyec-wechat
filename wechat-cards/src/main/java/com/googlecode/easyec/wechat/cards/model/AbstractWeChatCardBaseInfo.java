@@ -16,6 +16,7 @@ public abstract class AbstractWeChatCardBaseInfo implements Serializable {
     private static final long serialVersionUID = 6178660149574699945L;
     @JsonProperty(value = "logo_url", required = true)
     private String logoUrl;                            // 卡券的商户logo
+
     private WeChatCardCodeType cardCodeType;           // 卡券代码类型
     @JsonProperty(value = "brand_name", required = true)
     private String brandName;                          // 商户名字,字数上限为12个汉字

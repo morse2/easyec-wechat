@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 /**
- * 核销卡券的请求处理类
+ * 获取用户已领取的卡券的请求处理类
  */
 public class GetUserCardListRequestHandler extends AbstractWeChatHttpPostRequestHandler<GetUserCardListResult, GetUserCardList> {
 

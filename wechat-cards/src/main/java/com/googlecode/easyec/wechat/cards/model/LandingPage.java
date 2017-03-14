@@ -67,7 +67,7 @@ public class LandingPage extends AbstractCredentialCtrl implements Serializable 
 
     @JsonProperty("banner")
     private String bannerUrl;
-    @JsonProperty
+    @JsonProperty("page_title")
     private String title;
     @JsonProperty("can_share")
     private boolean canShare;

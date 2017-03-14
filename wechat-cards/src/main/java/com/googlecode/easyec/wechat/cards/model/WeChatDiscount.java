@@ -13,28 +13,21 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @JsonInclude(NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeChatDiscount extends AbstractWeChatCard<WeChatCardInfo> {
+public class WeChatDiscount extends AbstractWeChatCard<WeChatDiscountInfo> {
 
     private static final long serialVersionUID = -3246789382530978394L;
-    @JsonProperty
-    private int discount;   // 表示打折额度（百分比）。填30就是七折
+
 
     public WeChatDiscount() {
-        super(new WeChatCardInfo());
+        super(new WeChatDiscountInfo());
         setCardType("DISCOUNT");
     }
 
-    public int getDiscount() {
-        return discount;
-    }
 
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
 
     @Override
     @JsonProperty("discount")
-    public WeChatCardInfo getCardInfo() {
+    public WeChatDiscountInfo getCardInfo() {
         return this.cardInfo;
     }
 }

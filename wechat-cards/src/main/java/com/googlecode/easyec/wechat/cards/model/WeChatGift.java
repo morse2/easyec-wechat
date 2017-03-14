@@ -13,28 +13,18 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @JsonInclude(NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeChatGift extends AbstractWeChatCard<WeChatCardInfo> {
+public class WeChatGift extends AbstractWeChatCard<WeChatGiftCardInfo> {
 
-    private static final long serialVersionUID = -3639277371473351262L;
-    @JsonProperty
-    private String gift;  // 填写兑换内容的名称
+    private static final long serialVersionUID = 1098675901504909627L;
 
-    protected WeChatGift() {
-        super(new WeChatCardInfo());
+    public WeChatGift() {
+        super(new WeChatGiftCardInfo());
         setCardType("GIFT");
-    }
-
-    public String getGift() {
-        return gift;
-    }
-
-    public void setGift(String gift) {
-        this.gift = gift;
     }
 
     @Override
     @JsonProperty("gift")
-    public WeChatCardInfo getCardInfo() {
-        return null;
+    public WeChatGiftCardInfo getCardInfo() {
+        return this.cardInfo;
     }
 }

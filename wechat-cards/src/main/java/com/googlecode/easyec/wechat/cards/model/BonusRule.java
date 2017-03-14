@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 积分规则
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class BonusRule implements Serializable {
+public  class BonusRule implements Serializable {
 
     private static final long serialVersionUID = 6186687394542476430L;
 

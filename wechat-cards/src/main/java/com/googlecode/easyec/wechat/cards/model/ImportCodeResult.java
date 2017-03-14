@@ -9,36 +9,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author JunJie
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ImportCodeResult {
+public class ImportCodeResult extends BaseResult {
 
-    @JsonProperty("succ_code")
-    private String successCount;
-    @JsonProperty("duplicate_code")
-    private String duplicateCount;
-    @JsonProperty("fail_code")
-    private String failCount;
 
-    public String getSuccessCount() {
+    private int successCount;
+
+    private int duplicateCount;
+
+    private int failCount;
+
+    public int getSuccessCount() {
         return successCount;
     }
-
-    public void setSuccessCount(String successCount) {
+    @JsonProperty("fail_code")
+    public void setSuccessCount(int successCount) {
         this.successCount = successCount;
     }
 
-    public String getDuplicateCount() {
+    public int getDuplicateCount() {
         return duplicateCount;
     }
-
-    public void setDuplicateCount(String duplicateCount) {
+    @JsonProperty("duplicate_code")
+    public void setDuplicateCount(int duplicateCount) {
         this.duplicateCount = duplicateCount;
     }
 
-    public String getFailCount() {
+    public int getFailCount() {
         return failCount;
     }
-
-    public void setFailCount(String failCount) {
+    @JsonProperty("succ_code")
+    public void setFailCount(int failCount) {
         this.failCount = failCount;
     }
 }

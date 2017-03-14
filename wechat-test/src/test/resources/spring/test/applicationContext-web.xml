@@ -68,5 +68,15 @@
 
     <util:list id="messageHandlers">
         <bean class="com.googlecode.easyec.wechat.test.msg.impl.MySubscriptionMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserGetCardMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserDelCardMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserConCardMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserPayMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserViewCardMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserUpdateCardMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserSkuRemindMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserPayOrderMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserPassCheckMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserSubmitMemberCardMessageHandler" c:_0-ref="jaxbObjectFactory"/>
     </util:list>
 </beans>

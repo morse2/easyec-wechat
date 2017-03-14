@@ -1,44 +1,152 @@
 package com.googlecode.easyec.wechat.test.cards;
 
+import com.googlecode.easyec.wechat.cards.WeChatCardCodeType;
 import com.googlecode.easyec.wechat.cards.handler.*;
 import com.googlecode.easyec.wechat.cards.model.*;
+import com.googlecode.easyec.wechat.msg.handler.WeChatMessageHandler;
 import com.googlecode.easyec.wechat.test.BaseTest;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.annotation.Rollback;
+
+import javax.annotation.Resource;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class WeChatCardsTest extends BaseTest {
 
+
+    @Resource
+    private WeChatMessageHandler weChatMessageHandler;
+
     @Test
+    @Rollback(false)
     public void createGroupon() throws Exception {
         WeChatGroupon groupon = new WeChatGroupon();
-        groupon.getCardInfo().getBaseInfo().setBindOpenId(false);
-        groupon.getCardInfo().getBaseInfo().setBrandName("AABBCC");
+        WeChatCardBaseInfoImpl baseInfo = (WeChatCardBaseInfoImpl) groupon.getCardInfo().getBaseInfo();
+        baseInfo.setBindOpenId(false);
+        baseInfo.setBrandName("团购券");
+        baseInfo.setLogoUrl("http://mmbiz.qpic.cn/mmbiz_jpg/5KnFxMCGhEKv7NFLkIv3kgnXa1hCTf3ibicTDQLRhpqSyVICX0HcDbFgT2y005B3udk1FibjmUYEFEicBOEpfX6x3A/0");
+        baseInfo.setTitle("团购券");
+        baseInfo.setColor("Color010");
+        baseInfo.setNotice("此优惠券只能单独使用");
+        baseInfo.setDescription("该优惠券所有门店都可以使用");
+        baseInfo.setCardCodeType(WeChatCardCodeType.QrCode);
+        CardSku sku = new CardSku();
+        sku.setQuantity(100000);
+        baseInfo.setSku(sku);
+        CardDateInfo dateInfo = new CardDateInfo();
+        dateInfo.setDateType(CardDateInfo.DateType.FixTerm);
+        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2017-03-13 15:24:30");
+        dateInfo.setEndTime(_getTimeStamp(date));
+        dateInfo.setFixedTerm(15l);
+        dateInfo.setFixedBeginTerm(0l);
+        baseInfo.setDateInfo(dateInfo);
+        groupon.getCardInfo().setGrouponDetail("所有商品都为9折");
+
 
         CreateWeChatCard card = new CreateWeChatCard(groupon);
-        System.out.println(new String(jsonObjectFactory.writeValue(card), "utf-8"));
+        card.setCredential(getCredential());
+        CreateWeChatCardResult result = handleRequest(new CreateWeChatCardRequestHandler(jsonObjectFactory, baseUri, card));
+        Assert.assertNotNull(result);
     }
 
     @Test
+    @Rollback(false)
+    public void createGift() throws Exception {
+
+        WeChatGift gift = new WeChatGift();
+        WeChatCardBaseInfoImpl baseInfo = (WeChatCardBaseInfoImpl) gift.getCardInfo().getBaseInfo();
+        baseInfo.setBindOpenId(false);
+        baseInfo.setBrandName("兑换券");
+        baseInfo.setLogoUrl("http://mmbiz.qpic.cn/mmbiz_jpg/5KnFxMCGhEKv7NFLkIv3kgnXa1hCTf3ibicTDQLRhpqSyVICX0HcDbFgT2y005B3udk1FibjmUYEFEicBOEpfX6x3A/0");
+        baseInfo.setTitle("兑换券");
+        baseInfo.setColor("Color010");
+        baseInfo.setNotice("此优惠券只能单独使用");
+        baseInfo.setDescription("该优惠券所有门店都可以使用");
+        baseInfo.setCardCodeType(WeChatCardCodeType.QrCode);
+        CardSku sku = new CardSku();
+        sku.setQuantity(100000);
+        baseInfo.setSku(sku);
+        CardDateInfo dateInfo = new CardDateInfo();
+        dateInfo.setDateType(CardDateInfo.DateType.FixTerm);
+        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2017-03-28 23:59:59");
+        dateInfo.setEndTime(_getTimeStamp(date));
+        dateInfo.setFixedTerm(15l);
+        dateInfo.setFixedBeginTerm(0l);
+        baseInfo.setDateInfo(dateInfo);
+        gift.getCardInfo().setGift("可以兑换一个鼠标");
+
+        CreateWeChatCard card = new CreateWeChatCard(gift);
+        card.setCredential(getCredential());
+        CreateWeChatCardResult result = handleRequest(new CreateWeChatCardRequestHandler(jsonObjectFactory, baseUri, card));
+        Assert.assertNotNull(result);
+
+    }
+
+    @Test
+    @Rollback(false)
+    public void createCash() throws Exception {
+
+        WeChatCash cash = new WeChatCash();
+        cash.getCardInfo().setLeastCost(100);
+        cash.getCardInfo().setReduceCost(10);
+        WeChatCardBaseInfoImpl baseInfo = (WeChatCardBaseInfoImpl) cash.getCardInfo().getBaseInfo();
+        baseInfo.setBindOpenId(false);
+        baseInfo.setBrandName("代金券");
+        baseInfo.setLogoUrl("http://mmbiz.qpic.cn/mmbiz_jpg/5KnFxMCGhEKv7NFLkIv3kgnXa1hCTf3ibicTDQLRhpqSyVICX0HcDbFgT2y005B3udk1FibjmUYEFEicBOEpfX6x3A/0");
+        baseInfo.setTitle("代金券");
+        baseInfo.setColor("Color010");
+        baseInfo.setNotice("此代金券只能单独使用");
+        baseInfo.setDescription("该代金券所有门店都可以使用");
+        baseInfo.setCardCodeType(WeChatCardCodeType.QrCode);
+        CardSku sku = new CardSku();
+        sku.setQuantity(100000);
+        baseInfo.setSku(sku);
+        CardDateInfo dateInfo = new CardDateInfo();
+        dateInfo.setDateType(CardDateInfo.DateType.FixTerm);
+        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2017-03-28 23:59:59");
+        dateInfo.setEndTime(_getTimeStamp(date));
+        dateInfo.setFixedTerm(15l);
+        dateInfo.setFixedBeginTerm(0l);
+        baseInfo.setDateInfo(dateInfo);
+
+        CreateWeChatCard card = new CreateWeChatCard(cash);
+        card.setCredential(getCredential());
+        CreateWeChatCardResult result = handleRequest(new CreateWeChatCardRequestHandler(jsonObjectFactory, baseUri, card));
+        Assert.assertNotNull(result);
+    }
+
+
+    @Test
+    @Rollback(false)
     public void createLandingPage() throws Exception {
         LandingPage page = new LandingPage();
-        page.setBannerUrl("http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFN");
-        page.setTitle("惠城优惠大派送");
+        page.setCredential(getCredential());
+        page.setBannerUrl("http://mmbiz.qpic.cn/mmbiz_jpg/5KnFxMCGhEKv7NFLkIv3kgnXa1hCTf3ibE9eViarbwCXIRd68OYe1AXzcsHuExF2ITPpt8TxK5jcHqj6ON6OkaWw/0");
+        page.setTitle("SEPHORA");
         page.setCanShare(false);
-        page.setScene(LandingPage.Scene.Menu);
+        page.setScene(LandingPage.Scene.H5);
 
         LandingPage.Card card1 = new LandingPage.Card();
-        card1.setCardId("pXch-jnOlGtbuWwIO2NDftZeynRE");
-        card1.setThumbUrl("www.qq.com/a.jpg");
+        card1.setCardId("pM-Fjw4vkVna1PRj014uOicJG7MM");
+        card1.setThumbUrl("http://mmbiz.qpic.cn/mmbiz_jpg/5KnFxMCGhEKv7NFLkIv3kgnXa1hCTf3ibBJsFkyIrGahWrysiaJeaWwXtL1hOibovw5EgegfibZ9n0KtFUaYppsnPw/0");
 
-        LandingPage.Card card2 = new LandingPage.Card();
-        card2.setCardId("pXch-jnAN-ZBoRbiwgqBZ1RV60fI");
-        card2.setThumbUrl("www.qq.com/b.jpg");
+       /* LandingPage.Card card2 = new LandingPage.Card();
+        card2.setCardId("pM-FjwxvhaN9JmWb01JJ0NmraYCk");
+        card2.setThumbUrl("http://mmbiz.qpic.cn/mmbiz_jpg/5KnFxMCGhEKv7NFLkIv3kgnXa1hCTf3ibyNZjicTf2UnWicLOyqEmgMNDfoXKNQsQFkX2zvKSpC0orSLTMticAhdcg/0");*/
 
         page.addCard(card1);
-        page.addCard(card2);
+      /*  page.addCard(card2);*/
 
-        byte[] bs = jsonObjectFactory.writeValue(page);
-        System.out.println(new String(bs, "utf-8"));
+        CreateLandingPageResult result = handleRequest(new CreateLandingPageRequestHandler(jsonObjectFactory, baseUri, page));
+        Assert.assertNotNull(result);
+
     }
 
     @Test
@@ -46,9 +154,9 @@ public class WeChatCardsTest extends BaseTest {
 
         QueryCode queryCode = new QueryCode();
         queryCode.setCredential(getCredential());
-        queryCode.setCardId("card_id_123+");
-        queryCode.setCode("123456789");
-        queryCode.setCheckConsume(true);
+        // queryCode.setCardId("pM-Fjw6ORuqe8LuIrnAGg8X-Z6Gk");
+        queryCode.setCode("097966952328");
+        //queryCode.setCheckConsume(true);
 
         QueryCodeResult result = handleRequest(new QueryCodeRequestHandler(jsonObjectFactory, baseUri, queryCode));
         Assert.assertNotNull(result);
@@ -80,9 +188,8 @@ public class WeChatCardsTest extends BaseTest {
 
         ModifyStock modifyStock = new ModifyStock();
         modifyStock.setCredential(getCredential());
-        modifyStock.setCardId("pFS7Fjg8kV1IdDz01r4SQwMkuCKc");
-        modifyStock.setIncreaseStockValue(123456);
-        modifyStock.setReduceStockValue(111111);
+        modifyStock.setCardId("pM-Fjw7CqFiGjwyqVCEYEd6BGySI");
+        modifyStock.setIncreaseStockValue(10);
 
         ModifyStockResult result = handleRequest(new ModifyStockRequestHandler(jsonObjectFactory, baseUri, modifyStock));
         Assert.assertNotNull(result);
@@ -101,10 +208,11 @@ public class WeChatCardsTest extends BaseTest {
     }
 
     @Test
+    @Rollback(false)
     public void deleteCard() throws Exception {
         DeleteCard card = new DeleteCard();
         card.setCredential(getCredential());
-        card.setCardId("1231241");
+        card.setCardId("pM-Fjw7CqFiGjwyqVCEYEd6BGySI");
         DeleteCardResult result = handleRequest(new DeleteCardRequestHandler(jsonObjectFactory, baseUri, card));
         Assert.assertNotNull(result);
     }
@@ -162,4 +270,54 @@ public class WeChatCardsTest extends BaseTest {
         Assert.assertNotNull(result);
     }
 
+    @Test
+    @Rollback(false)
+    public void queryCardInfo() throws Exception {
+
+        QueryCardInfo cardInfo = new QueryCardInfo();
+        cardInfo.setCredential(getCredential());
+        cardInfo.setCardId("pM-Fjw2afUGEFNLoRH10DvlUCiao");
+        QueryWeChatCardResult result = handleRequest(new QueryCardInfoRequestHandler(jsonObjectFactory, baseUri, cardInfo));
+        Assert.assertNotNull(result);
+
+    }
+
+    @Test
+    @Rollback(false)
+    public void queryMemberCardInfo() throws Exception {
+
+        QueryCardInfo cardInfo = new QueryCardInfo();
+        cardInfo.setCredential(getCredential());
+        cardInfo.setCardId("pM-Fjw7CqFiGjwyqVCEYEd6BGySI");
+
+        QueryWeChatMemberCardResult result = handleRequest(new QueryMemberCardInfoRequestHandler(jsonObjectFactory, baseUri, cardInfo));
+        Assert.assertNotNull(result);
+    }
+
+
+    @Test
+    public void queryCardInfoFromJsonText() throws Exception {
+        FileInputStream fis = new FileInputStream("C:\\Users\\admin\\Desktop\\test.json");
+        byte[] json = IOUtils.toByteArray(fis);
+        fis.close();
+
+        QueryWeChatMemberCardResult result = jsonObjectFactory.readValue(json, QueryWeChatMemberCardResult.class);
+        Assert.assertNotNull(result);
+    }
+
+    private Long _getTimeStamp(Date date) {
+        return Long.valueOf(DateFormatUtils.format(date, "yyyyMMddHHmmss"));
+    }
+
+
+    @Test
+    public void loadXmlObject() throws Exception {
+        InputStream fis = new ClassPathResource("xml/cardTest.xml").getInputStream();
+        try {
+            byte[] bs = IOUtils.toByteArray(fis);
+            weChatMessageHandler.process(bs);
+        } finally {
+            IOUtils.closeQuietly(fis);
+        }
+    }
 }

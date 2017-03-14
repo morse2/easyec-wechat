@@ -13,28 +13,19 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @JsonInclude(NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeChatGroupon extends AbstractWeChatCard<WeChatCardInfo> {
+public class WeChatGroupon extends AbstractWeChatCard<WeChatGrouponCardInfo> {
 
     private static final long serialVersionUID = -2953384204705746830L;
-    @JsonProperty("deal_detail")
-    private String detail;
+
 
     public WeChatGroupon() {
-        super(new WeChatCardInfo());
+        super(new WeChatGrouponCardInfo());
         setCardType("GROUPON");
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 
     @Override
     @JsonProperty("groupon")
-    public WeChatCardInfo getCardInfo() {
+    public WeChatGrouponCardInfo getCardInfo() {
         return this.cardInfo;
     }
 }

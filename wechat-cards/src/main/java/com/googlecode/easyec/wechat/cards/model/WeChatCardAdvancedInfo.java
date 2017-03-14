@@ -39,6 +39,8 @@ public class WeChatCardAdvancedInfo implements Serializable {
     private List<String> businessServices = new ArrayList<String>();   // 商家服务类型
     @JsonProperty("time_limit")
     private List<TimeLimit> timeLimits = new ArrayList<TimeLimit>();   // 使用时段限制
+    @JsonProperty("share_friends")
+    private boolean shareFriends;                               //是否分享
 
     public UseCondition getUseCondition() {
         return useCondition;
@@ -78,5 +80,13 @@ public class WeChatCardAdvancedInfo implements Serializable {
 
     public void setTimeLimits(List<TimeLimit> timeLimits) {
         this.timeLimits = timeLimits;
+    }
+
+    public boolean isShareFriends() {
+        return shareFriends;
+    }
+
+    public void setShareFriends(boolean shareFriends) {
+        this.shareFriends = shareFriends;
     }
 }

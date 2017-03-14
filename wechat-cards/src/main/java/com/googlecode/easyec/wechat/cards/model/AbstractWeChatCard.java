@@ -31,8 +31,13 @@ public abstract class AbstractWeChatCard<T extends AbstractWeChatCardInfo> imple
         return cardType;
     }
 
-    protected void setCardType(String cardType) {
+    public void setCardType(String cardType) {
         this.cardType = cardType;
+    }
+
+    @JsonProperty("card")
+    public void setCardInfo(T cardInfo) {
+        this.cardInfo = cardInfo;
     }
 
     abstract public T getCardInfo();

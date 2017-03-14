@@ -46,15 +46,15 @@ public class CardDateInfo implements Serializable {
 
     private DateType dateType;          // 使用时间的类型
     @JsonProperty("begin_timestamp")
-    private Integer beginTime;          // ype为DATE_TYPE_FIX_TIME_RANGE时专用，表示起用时间
+    private Long beginTime;          // ype为DATE_TYPE_FIX_TIME_RANGE时专用，表示起用时间
     @JsonProperty("end_timestamp")
-    private Integer endTime;            // 表示结束时间，建议设置为截止日期的23:59:59过期
+    private Long endTime;            // 表示结束时间，建议设置为截止日期的23:59:59过期
     @JsonProperty("fixed_term")
-    private Integer fixedTerm;          // type为DATE_TYPE_FIX_TERM时专用，表示自领取后多少天内有效，不支持填写0
+    private Long fixedTerm;          // type为DATE_TYPE_FIX_TERM时专用，表示自领取后多少天内有效，不支持填写0
     @JsonProperty("fixed_begin_term")
-    private Integer fixedBeginTerm;     // type为DATE_TYPE_FIX_TERM时专用，表示自领取后多少天开始生效，领取后当天生效填写0
+    private Long fixedBeginTerm;     // type为DATE_TYPE_FIX_TERM时专用，表示自领取后多少天开始生效，领取后当天生效填写0
     @JsonProperty("fixed_end_term")
-    private Integer fixedEndTerm;       // 可用于DATE_TYPE_FIX_TERM时间类型，表示卡券统一过期时间
+    private Long fixedEndTerm;       // 可用于DATE_TYPE_FIX_TERM时间类型，表示卡券统一过期时间
 
     @JsonProperty("type")
     public String getType() {
@@ -69,43 +69,43 @@ public class CardDateInfo implements Serializable {
         this.dateType = dateType;
     }
 
-    public Integer getBeginTime() {
+    public Long getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(Integer beginTime) {
+    public void setBeginTime(Long beginTime) {
         this.beginTime = beginTime;
     }
 
-    public Integer getEndTime() {
+    public Long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Integer endTime) {
+    public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
 
-    public Integer getFixedTerm() {
+    public Long getFixedTerm() {
         return fixedTerm;
     }
 
-    public void setFixedTerm(Integer fixedTerm) {
+    public void setFixedTerm(Long fixedTerm) {
         this.fixedTerm = fixedTerm;
     }
 
-    public Integer getFixedBeginTerm() {
+    public Long getFixedBeginTerm() {
         return fixedBeginTerm;
     }
 
-    public void setFixedBeginTerm(Integer fixedBeginTerm) {
+    public void setFixedBeginTerm(Long fixedBeginTerm) {
         this.fixedBeginTerm = fixedBeginTerm;
     }
 
-    public Integer getFixedEndTerm() {
+    public Long getFixedEndTerm() {
         return fixedEndTerm;
     }
 
-    public void setFixedEndTerm(Integer fixedEndTerm) {
+    public void setFixedEndTerm(Long fixedEndTerm) {
         this.fixedEndTerm = fixedEndTerm;
     }
 }

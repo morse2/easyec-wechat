@@ -23,6 +23,9 @@ public class CustomField implements Serializable {
     @JsonProperty(value = "name", required = true)
     private String name;                                  // 会员信息类目自定义名称，当开发者变更这类类目信息的value值时不会触发系统模板消息通知用户
 
+    @JsonProperty(value = "url")
+    private String url;                                      //点击类目跳转外链url
+
     @JsonProperty("name_type")
     public String getNameType() {
         return cardNameType != null ? cardNameType.getValue() : null;
@@ -38,6 +41,14 @@ public class CustomField implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setName(String name) {

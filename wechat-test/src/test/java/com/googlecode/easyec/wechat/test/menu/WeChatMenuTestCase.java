@@ -1,6 +1,7 @@
 package com.googlecode.easyec.wechat.test.menu;
 
 import com.googlecode.easyec.wechat.menu.enums.ButtonTypes;
+import com.googlecode.easyec.wechat.menu.handler.AddMenuRequestHandler;
 import com.googlecode.easyec.wechat.menu.handler.DeleteMenuRequestHandler;
 import com.googlecode.easyec.wechat.menu.handler.QueryMenuConfigRequestHandler;
 import com.googlecode.easyec.wechat.menu.handler.QueryMenuRequestHandler;
@@ -32,19 +33,23 @@ public class WeChatMenuTestCase extends BaseTest {
         menu.setCredential(getCredential());
 
         Button button1 = new Button();
-        button1.setName("测试1");
+        button1.setName("会员卡3");
         menu.addButton(button1);
 
-        Button button2 = new Button();
-        button2.setName("测试2");
-        button2.setType(ButtonTypes.click);
-        button2.setKey("C001_ABC");
+        Button grouponBtn = new Button();
+        grouponBtn.setName("领取会员卡");
+        grouponBtn.setType(ButtonTypes.view);
+        grouponBtn.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3be6367203f983ac&redirect_uri=https%3A%2F%2Fmp.weixin.qq.com%2Fbizmall%2Fcardlandingpage%3Fbiz%3DMzI3ODEwMjgzNQ%3D%3D%26page_id%3D9%26scene%3D11&response_type=code&scope=snsapi_base#wechat_redirect");
 
-        button1.addSubButton(button2);
+        button1.addSubButton(grouponBtn);
 
         byte[] bs = jsonObjectFactory.writeValue(menu);
         System.out.println(
             new String(bs)
+        );
+
+        handleRequest(
+                new AddMenuRequestHandler(jsonObjectFactory, baseUri, menu)
         );
     }
 

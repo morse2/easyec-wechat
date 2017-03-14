@@ -90,7 +90,7 @@ public class WeChatCardBaseInfoImpl extends AbstractWeChatCardBaseInfo {
     @JsonProperty("can_give_friend")
     private Boolean canGiveFriend;                     // 卡券是否可转赠
 
-    @JsonProperty("code_type")
+    @JsonProperty(value = "code_type" ,required = true)
     public String getCodeType() {
         return cardCodeType != null ? cardCodeType.getValue() : null;
     }

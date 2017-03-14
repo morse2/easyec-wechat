@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.annotation.Rollback;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,12 +23,13 @@ import static com.googlecode.easyec.wechat.material.enums.MaterialTypes.*;
 public class WeChatPermanentMaterialTestCase extends BaseTest {
 
     @Test
+    @Rollback(false)
     public void uploadArticleImg() throws Exception {
         AddArticleImage image = new AddArticleImage();
         image.setCredential(getCredential());
-        image.setName("image.jpg");
+        image.setName("card.jpg");
         image.setData(
-            getFileData("material/image.jpg")
+            getFileData("material/card.png")
         );
 
         AddArticleImageResult result = handleRequest(
@@ -35,6 +37,7 @@ public class WeChatPermanentMaterialTestCase extends BaseTest {
         );
 
         Assert.assertNotNull(result);
+        System.out.println(result.getUrl());
     }
 
     @Test
