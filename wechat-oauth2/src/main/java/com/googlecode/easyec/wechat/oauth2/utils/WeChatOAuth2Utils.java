@@ -1,6 +1,7 @@
 package com.googlecode.easyec.wechat.oauth2.utils;
 
 import com.googlecode.easyec.wechat.oauth2.model.AuthorityEntry;
+import org.springframework.util.Assert;
 
 /**
  * 微信OAuth2.0的工具类
@@ -19,7 +20,17 @@ public class WeChatOAuth2Utils {
      */
     public static String buildEntryUrl(AuthorityEntry entry) {
         StringBuffer url = new StringBuffer();
-        url.append("https://open.weixin.qq.com/connect/oauth2/authorize");
+        Assert.notNull(entry.getScope(), "Parameter 'scope' mustn't be null.");
+
+        url.append("https://open.weixin.qq.com/connect");
+        switch (entry.getScope()) {
+            case snsapi_login:
+                url.append("/qrconnect");
+                break;
+            default:
+                url.append("/oauth2/authorize");
+        }
+
         url.append("?appid=").append(entry.getAppId());
         url.append("&redirect_uri=").append(entry.getRedirectUri());
         url.append("&response_type=").append(entry.getResponseType());

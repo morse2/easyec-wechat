@@ -18,7 +18,11 @@ public class AuthorityEntry {
         /**
          * 显示授权,弹出授权页面
          */
-        snsapi_userinfo
+        snsapi_userinfo,
+        /**
+         * 网页授权
+         */
+        snsapi_login
     }
 
     public AuthorityEntry() {
