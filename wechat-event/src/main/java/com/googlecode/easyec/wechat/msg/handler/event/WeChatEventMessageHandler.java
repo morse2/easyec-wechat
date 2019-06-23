@@ -20,8 +20,7 @@ public abstract class WeChatEventMessageHandler<T extends WeChatEventMessage> ex
 
     @Override
     protected boolean accept(WeChatMessage obj) {
-        return obj != null
-            && (obj instanceof WeChatEventMessage)
+        return (obj instanceof WeChatEventMessage)
             && MSG_TYPE_EVENT.equals(obj.getMsgType());
     }
 }

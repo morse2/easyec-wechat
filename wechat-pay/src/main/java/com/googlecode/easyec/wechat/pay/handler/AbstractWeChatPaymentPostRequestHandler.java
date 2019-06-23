@@ -57,6 +57,7 @@ public abstract class AbstractWeChatPaymentPostRequestHandler<T extends BaseWeCh
             WeChatXmlData.class
         );
 
+        //noinspection unchecked
         return xml != null ? (T) xml.resolve(cls) : null;
     }
 

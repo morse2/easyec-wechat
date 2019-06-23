@@ -36,10 +36,11 @@ public abstract class SubscriptionMessageHandler extends WeChatEventMessageHandl
 
     @Override
     protected SubscriptionMessage createInstance(WeChatXmlData obj) {
-        return obj.resolve(
-            obj.hasElements()
+        //noinspection unchecked
+        return obj.resolve((Class<SubscriptionMessage>)
+            (obj.hasElements()
                 ? QRSubscriptionMessage.class
-                : SubscriptionMessage.class
+                : SubscriptionMessage.class)
         );
     }
 }
