@@ -24,7 +24,7 @@ public class UserLoginRequestHandler extends AbstractWeChatHttpGetRequestHandler
         StringBuffer sb = new StringBuffer();
         sb.append("appid=").append(getBean().getAppId());
         sb.append("&secret=").append(getBean().getSecret());
-        sb.append("&js_code=").append(getBean().getJsCode());
+        sb.append("&js_code=").append(getBean().getCode());
         sb.append("&grant_type=").append(getBean().getGrantType());
 
         return sb.toString();

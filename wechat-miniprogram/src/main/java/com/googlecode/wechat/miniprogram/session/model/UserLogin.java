@@ -4,23 +4,23 @@ import com.googlecode.easyec.wechat.base.model.WeChatApp;
 
 public class UserLogin extends WeChatApp {
 
-    private String jsCode;
+    private String code;
     private String grantType;
 
     public UserLogin() {
         setGrantType("authorization_code");
     }
 
-    public String getJsCode() {
-        return jsCode;
+    public String getCode() {
+        return code;
     }
 
     public String getGrantType() {
         return grantType;
     }
 
-    public void setJsCode(String jsCode) {
-        this.jsCode = jsCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void setGrantType(String grantType) {
