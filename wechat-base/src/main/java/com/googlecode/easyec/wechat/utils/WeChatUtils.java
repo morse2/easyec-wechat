@@ -3,16 +3,22 @@ package com.googlecode.easyec.wechat.utils;
 import com.googlecode.easyec.spirit.web.webservice.factory.StreamObjectFactory;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.nio.charset.Charset;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import static com.googlecode.easyec.spirit.web.utils.SpringContextUtils.getBean;
 import static java.util.Collections.emptyList;
+import static org.apache.http.Consts.UTF_8;
 
 /**
  * 微信工具类
@@ -20,6 +26,8 @@ import static java.util.Collections.emptyList;
  * @author JunJie
  */
 public class WeChatUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(WeChatUtils.class);
 
     private WeChatUtils() { /* no op */ }
 
@@ -101,11 +109,39 @@ public class WeChatUtils {
     public static String sha1Hex(String original) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            digest.update(original.getBytes(Charset.forName("UTF-8")));
+            digest.update(original.getBytes(StandardCharsets.UTF_8));
             return Hex.encodeHexString(digest.digest());
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    /**
+     * 将输入流的数据解析为json的map对象。
+     *
+     * @param in <code>InputStream</code>
+     * @return <code>java.util.Map</code>
+     */
+    public static Map parseJsonToMap(InputStream in) {
+        if (in == null) return null;
+
+        byte[] bs = null;
+
+        try {
+            bs = IOUtils.toByteArray(in);
+            return _getJsonObjectFactory().readValue(bs, HashMap.class);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        Map result = new HashMap(1);
+        //noinspection ConstantConditions
+        if (bs != null) {
+            //noinspection unchecked
+            result.put("origin", new String(bs, UTF_8));
+        }
+
+        return result;
     }
 
     /**

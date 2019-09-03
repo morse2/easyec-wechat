@@ -4,7 +4,7 @@
     <groupId>com.googlecode.easyec</groupId>
     <artifactId>wechat</artifactId>
     <packaging>pom</packaging>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.2.2-SNAPSHOT</version>
     <modules>
         <module>wechat-base</module>
         <module>wechat-test</module>
@@ -17,6 +17,7 @@
         <module>wechat-jssdk</module>
         <module>wechat-pay</module>
         <module>wechat-cards</module>
+        <module>wechat-miniprogram</module>
     </modules>
     <name>WeChat</name>
     <url>http://code.google.com/p/easyec</url>
@@ -81,7 +82,7 @@
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>spirit-web</artifactId>
-            <version>[0.8.3.1-SNAPSHOT,]</version>
+            <version>0.8.3.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
