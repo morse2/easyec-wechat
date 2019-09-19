@@ -23,9 +23,9 @@ public class JsapiTicketRequestHandler extends AbstractWeChatHttpGetRequestHandl
 
     @Override
     protected String createQueryString() throws IOException {
-        Map<String, String> qsMap = new HashMap<String, String>();
-        qsMap.put("access_token", getBean().getCredential().getAccessToken());
-        qsMap.put("type", getBean().getType());
+        Map<String, String[]> qsMap = new HashMap<>();
+        qsMap.put("access_token", new String[] { getBean().getCredential().getAccessToken() });
+        qsMap.put("type", new String[] { getBean().getType() });
 
         return WebUtils.encodeQueryString(qsMap);
     }

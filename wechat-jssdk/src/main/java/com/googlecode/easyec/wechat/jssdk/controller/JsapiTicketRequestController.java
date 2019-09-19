@@ -39,11 +39,11 @@ public class JsapiTicketRequestController {
         String timestamp = String.valueOf(System.currentTimeMillis());
         timestamp = timestamp.substring(0, timestamp.length() - 3);
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("jsapi_ticket", ticket.getTicket());
-        params.put("timestamp", timestamp);
-        params.put("noncestr", nonce);
-        params.put("url", thisUrl);
+        Map<String, String[]> params = new HashMap<>();
+        params.put("jsapi_ticket", new String[] { ticket.getTicket() });
+        params.put("timestamp", new String[] { timestamp });
+        params.put("noncestr", new String[] { nonce });
+        params.put("url", new String[] { thisUrl });
 
         String[] objects = StringUtils.split(
             WebUtils.encodeQueryString(params), "&"

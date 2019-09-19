@@ -23,10 +23,10 @@ public class WebGetUserInfoRequestHandler extends AbstractWeChatHttpGetRequestHa
 
     @Override
     protected String createQueryString() throws IOException {
-        Map<String, String> qsMap = new HashMap<String, String>();
-        qsMap.put("access_token", getBean().getAccessToken());
-        qsMap.put("openid", getBean().getOpenid());
-        qsMap.put("lang", getBean().getLanguage());
+        Map<String, String[]> qsMap = new HashMap<>();
+        qsMap.put("access_token", new String[] { getBean().getAccessToken() });
+        qsMap.put("openid", new String[] { getBean().getOpenid() });
+        qsMap.put("lang", new String[] { getBean().getLanguage() });
 
         return WebUtils.encodeQueryString(qsMap);
     }
