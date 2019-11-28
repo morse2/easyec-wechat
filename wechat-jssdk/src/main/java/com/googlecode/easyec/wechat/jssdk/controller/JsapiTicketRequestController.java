@@ -7,7 +7,12 @@ import com.googlecode.easyec.wechat.utils.WeChatUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.join;
 
@@ -43,13 +48,13 @@ public class JsapiTicketRequestController {
         params.put("jsapi_ticket", new String[] { ticket.getTicket() });
         params.put("timestamp", new String[] { timestamp });
         params.put("noncestr", new String[] { nonce });
-        params.put("url", new String[] { thisUrl });
 
-        String[] objects = StringUtils.split(
-            WebUtils.encodeQueryString(params), "&"
-        );
+        String qs = WebUtils.encodeQueryString(params);
+        List<String> arr
+            = Stream.of(StringUtils.split(qs, "&"))
+            .collect(Collectors.toList());
+        arr.add(StringUtils.join(new String[] { "url", thisUrl }, "="));
 
-        List<String> arr = Arrays.asList(objects);
         Collections.sort(arr);
 
         String signature = WeChatUtils.sha1Hex(join(arr, "&"));
