@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.time.DateUtils;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,8 +16,9 @@ import java.util.GregorianCalendar;
  * @author JunJie
  */
 @JsonIgnoreProperties({ "expireTime" })
-public class WeChatCredential {
+public class WeChatCredential implements Serializable {
 
+    private static final long serialVersionUID = 9212772262996565698L;
     @JsonProperty("access_token")
     private String accessToken;
     private Date expireTime;
