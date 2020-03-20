@@ -3,14 +3,11 @@ package com.googlecode.easyec.wechat.template.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.googlecode.easyec.wechat.base.model.AbstractCredentialCtrl;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * Created by 平功元 on 2016/4/25.
- */
 @JsonIgnoreProperties("credential")
 public class SendTemplateMessage extends AbstractCredentialCtrl {
 
@@ -21,7 +18,9 @@ public class SendTemplateMessage extends AbstractCredentialCtrl {
     @JsonProperty("url")
     private String url;
     @JsonProperty("data")
-    private Map<String, TemplateData> values = new HashMap<String, TemplateData>();
+    private Map<String, TemplateData> values = new HashMap<>();
+    @JsonProperty("miniprogram")
+    private TemplateMessageMP miniprogram;
 
     public String getToUser() {
         return toUser;
@@ -45,6 +44,19 @@ public class SendTemplateMessage extends AbstractCredentialCtrl {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public TemplateMessageMP getMiniprogram() {
+        return miniprogram;
+    }
+
+    public void setMiniprogram(String appId, String pagePath) {
+        Assert.notNull(appId, "Miniprogram appid is null.");
+        Assert.notNull(pagePath, "Miniprogram page path is null.");
+
+        this.miniprogram = new TemplateMessageMP();
+        this.miniprogram.setPagePath(pagePath);
+        this.miniprogram.setAppId(appId);
     }
 
     /**
