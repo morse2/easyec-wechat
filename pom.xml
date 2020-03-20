@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.easyec</groupId>
     <artifactId>wechat</artifactId>
     <packaging>pom</packaging>
-    <version>0.2.2-SNAPSHOT</version>
+    <version>0.2.2</version>
     <modules>
         <module>wechat-base</module>
         <module>wechat-test</module>
@@ -29,7 +28,8 @@
         <developerConnection>scm:git:https://github.com/superego/easyec-wechat.git</developerConnection>
         <connection>scm:git:https://github.com/superego/easyec-wechat.git</connection>
         <url>https://github.com/superego/easyec-wechat.git</url>
-    </scm>
+      <tag>wechat-0.2.2</tag>
+  </scm>
 
     <developers>
         <developer>
