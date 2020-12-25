@@ -6,7 +6,7 @@ public class TemplateMessageMP {
 
     @JsonProperty("appid")
     private String appId;
-    @JsonProperty("pagepath")
+    @JsonProperty("path")
     private String pagePath;
 
     public String getAppId() {

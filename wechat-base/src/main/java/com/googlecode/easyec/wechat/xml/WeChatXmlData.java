@@ -1,11 +1,11 @@
 package com.googlecode.easyec.wechat.xml;
 
 import com.googlecode.easyec.wechat.xml.annotation.XmlElementMapping;
+import com.googlecode.easyec.wechat.xml.annotation.XmlListMapping;
+import com.googlecode.easyec.wechat.xml.annotation.XmlObjectMapping;
 import com.googlecode.easyec.wechat.xml.converter.XmlElementConverter;
 import com.sun.org.apache.xerces.internal.dom.DocumentImpl;
-import org.apache.commons.collections4.IteratorUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.collections4.PredicateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
@@ -21,11 +21,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.springframework.beans.BeanUtils.instantiate;
 import static org.springframework.beans.BeanUtils.instantiateClass;
 
 /**
@@ -36,11 +36,10 @@ import static org.springframework.beans.BeanUtils.instantiateClass;
 @XmlRootElement(name = "xml")
 public class WeChatXmlData implements Serializable {
 
-    private static final long serialVersionUID = -4759134307988161797L;
-    private static Logger logger = LoggerFactory.getLogger(WeChatXmlData.class);
+    private static final Logger logger = LoggerFactory.getLogger(WeChatXmlData.class);
 
     @XmlAnyElement
-    private List<Element> elements = new ArrayList<Element>();
+    private final List<Element> elements = new ArrayList<>();
 
     /**
      * 该方法用于返回一个当前不可变的<code>Element</code>对象集合
@@ -90,53 +89,7 @@ public class WeChatXmlData implements Serializable {
      * @return instance of class
      */
     public <T> T resolve(Class<T> cls) {
-        BeanWrapper bw = new BeanWrapperImpl(cls);
-        PropertyDescriptor[] descriptors = bw.getPropertyDescriptors();
-        for (PropertyDescriptor descriptor : descriptors) {
-            if (bw.isWritableProperty(descriptor.getName())) {
-                Method method = descriptor.getWriteMethod();
-                if (!method.isAnnotationPresent(XmlElementMapping.class)) {
-                    logger.debug("No annotation was present. Property: [" + descriptor.getName() + "].");
-
-                    continue;
-                }
-
-                XmlElementMapping ann = method.getAnnotation(XmlElementMapping.class);
-                String name = ann.name();
-
-                Element e = IteratorUtils.find(
-                    this.elements.iterator(),
-                    PredicateUtils.orPredicate(
-                        new LocalNamePredicate(name),
-                        new NodeNamePredicate(name)
-                    )
-                );
-
-                if (e == null) {
-                    logger.debug("No element was found. Name: [{}].", name);
-
-                    continue;
-                }
-
-                Class<? extends XmlElementConverter<?>> cv = ann.converter();
-                if (cv.isInterface()) {
-                    logger.warn("XmlElementConverter cannot be a interface. Converter class: [{}].", cv);
-
-                    continue;
-                }
-
-                bw.setPropertyValue(
-                    new PropertyValue(
-                        descriptor.getName(),
-                        instantiate(cv).from(
-                            trim(e.getTextContent())
-                        )
-                    )
-                );
-            }
-        }
-
-        return cls.cast(bw.getWrappedInstance());
+        return _resolve(cls, this.elements);
     }
 
     /**
@@ -147,78 +100,151 @@ public class WeChatXmlData implements Serializable {
      *
      * @param obj 一个Java对象
      */
-    @SuppressWarnings("unchecked")
     public void merge(Object obj) {
+        _merge(obj, this.elements);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void _merge(Object obj, List<Element> elements) {
         DocumentImpl doc = new DocumentImpl();
         BeanWrapper bw = new BeanWrapperImpl(obj);
         PropertyDescriptor[] descriptors = bw.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : descriptors) {
             if (bw.isReadableProperty(descriptor.getName())) {
                 Method method = descriptor.getReadMethod();
-                if (!method.isAnnotationPresent(XmlElementMapping.class)) {
-                    logger.debug("There is no set annotation XmlElementMapping.");
+                if (method.isAnnotationPresent(XmlElementMapping.class)) {
+                    XmlElementMapping ann = method.getAnnotation(XmlElementMapping.class);
+                    Class<? extends XmlElementConverter<Object>> cv =
+                        (Class<? extends XmlElementConverter<Object>>) ann.converter();
+                    if (cv.isInterface()) {
+                        logger.warn("XmlElementConverter mustn't be a interface. Converter class: [{}].", cv);
 
-                    continue;
+                        continue;
+                    }
+
+                    String val = instantiateClass(cv).to(
+                        bw.getPropertyValue(descriptor.getName())
+                    );
+
+                    if (isBlank(val)) {
+                        logger.warn("No content within element [{}]. So ignore this element.", ann.name());
+
+                        continue;
+                    }
+
+                    Element ele = doc.createElement(ann.name());
+                    ele.appendChild(doc.createCDATASection(val));
+                    elements.add(ele);
                 }
+                // if is XmlObjectMapping
+                if (method.isAnnotationPresent(XmlObjectMapping.class)) {
+                    XmlObjectMapping ann = method.getAnnotation(XmlObjectMapping.class);
+                    Object pv = bw.getPropertyValue(descriptor.getName());
+                    if (pv == null) {
+                        logger.warn("No object was present. [{}].", ann.name());
 
-                XmlElementMapping ann = method.getAnnotation(XmlElementMapping.class);
+                        continue;
+                    }
 
-                Class<? extends XmlElementConverter> cv = ann.converter();
-                if (cv.isInterface()) {
-                    logger.warn("XmlElementConverter mustn't be a interface. Converter class: [{}].", cv);
-
-                    continue;
+                    Element ele = doc.createElement(ann.name());
+                    List<Element> children = new ArrayList<>();
+                    _merge(pv, children);
+                    children.forEach(ele::appendChild);
+                    elements.add(ele);
                 }
+                // if is XmlListMapping
+                if (method.isAnnotationPresent(XmlListMapping.class)) {
+                    XmlListMapping ann = method.getAnnotation(XmlListMapping.class);
+                    List<Object> pv = (List<Object>) bw.getPropertyValue(descriptor.getName());
+                    if (pv == null) {
+                        logger.warn("No list object was present. [{}].", ann.name());
 
-                String val = instantiateClass(cv).to(
-                    bw.getPropertyValue(descriptor.getName())
-                );
+                        continue;
+                    }
 
-                if (isBlank(val)) {
-                    logger.warn("No content within element [{}]. So ignore this element.", ann.name());
-
-                    continue;
+                    Element ele = doc.createElement(ann.name());
+                    pv.forEach(o -> {
+                        List<Element> children = new ArrayList<>();
+                        _merge(o, children);
+                        children.forEach(ele::appendChild);
+                    });
+                    elements.add(ele);
                 }
-
-                Element ele = doc.createElement(ann.name());
-                ele.appendChild(doc.createCDATASection(val));
-
-                addElement(ele);
             }
         }
     }
 
-    /**
-     * <code>Element</code>的LocalName属性值判断类
-     */
-    private class LocalNamePredicate implements Predicate<Element> {
+    @SuppressWarnings("rawtypes")
+    private <T> T _resolve(Class<T> cls, List<Element> elements) {
+        final BeanWrapper bw = new BeanWrapperImpl(cls);
+        PropertyDescriptor[] descriptors = bw.getPropertyDescriptors();
+        for (PropertyDescriptor descriptor : descriptors) {
+            if (bw.isWritableProperty(descriptor.getName())) {
+                final Method method = descriptor.getWriteMethod();
+                if (method.isAnnotationPresent(XmlElementMapping.class)) {
+                    final XmlElementMapping ann = method.getAnnotation(XmlElementMapping.class);
+                    elements.stream()
+                        .filter(e -> nameMatches(e, ann.name()))
+                        .findFirst()
+                        .ifPresent(e -> {
+                            Class<? extends XmlElementConverter<?>> cv = ann.converter();
+                            if (cv.isInterface()) {
+                                logger.warn("XmlElementConverter cannot be a interface. Converter class: [{}].", cv);
 
-        private String name;
+                                return;
+                            }
 
-        private LocalNamePredicate(String name) {
-            this.name = name;
+                            bw.setPropertyValue(
+                                new PropertyValue(
+                                    descriptor.getName(),
+                                    instantiateClass(cv).from(
+                                        trim(e.getTextContent())
+                                    )
+                                )
+                            );
+                        });
+                }
+                // if is XmlObjectMapping
+                if (method.isAnnotationPresent(XmlObjectMapping.class)) {
+                    final XmlObjectMapping ann = method.getAnnotation(XmlObjectMapping.class);
+                    elements.stream()
+                        .filter(e -> nameMatches(e, ann.name()))
+                        .findFirst()
+                        .ifPresent(e -> {
+                            Object obj = _resolve(ann.value(), singletonList(e));
+                            if (obj != null) {
+                                bw.setPropertyValue(new PropertyValue(descriptor.getName(), obj));
+                            }
+                        });
+                }
+                // if is XmlListMapping
+                if (method.isAnnotationPresent(XmlListMapping.class)) {
+                    final XmlListMapping ann = method.getAnnotation(XmlListMapping.class);
+                    Class<? extends List> listCls = ann.listType();
+                    if (listCls.isInterface()) {
+                        throw new IllegalArgumentException("listType mustn't be an interface type.");
+                    }
+
+                    List list = instantiateClass(listCls);
+                    elements.stream()
+                        .filter(e -> nameMatches(e, ann.name()))
+                        .forEach(e -> {
+                            Object obj = _resolve(ann.value(), singletonList(e));
+                            if (obj != null) {
+                                //noinspection unchecked
+                                list.add(obj);
+                            }
+                        });
+
+                    bw.setPropertyValue(new PropertyValue(descriptor.getName(), list));
+                }
+            }
         }
 
-        @Override
-        public boolean evaluate(Element object) {
-            return name != null && name.equals(object.getLocalName());
-        }
+        return cls.cast(bw.getWrappedInstance());
     }
 
-    /**
-     * <code>Element</code>的NodeName属性值判断类
-     */
-    private class NodeNamePredicate implements Predicate<Element> {
-
-        private String name;
-
-        private NodeNamePredicate(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public boolean evaluate(Element object) {
-            return name != null && name.equals(object.getNodeName());
-        }
+    private boolean nameMatches(Element e, String name) {
+        return e != null && (StringUtils.equals(name, e.getLocalName()) || StringUtils.equals(name, e.getNodeName()));
     }
 }
