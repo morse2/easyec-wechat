@@ -12,6 +12,8 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.PropertyValue;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,7 +23,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Collections.singletonList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -37,6 +39,7 @@ import static org.springframework.beans.BeanUtils.instantiateClass;
 public class WeChatXmlData implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(WeChatXmlData.class);
+    private static final long serialVersionUID = -9081713530571912988L;
 
     @XmlAnyElement
     private final List<Element> elements = new ArrayList<>();
@@ -211,7 +214,7 @@ public class WeChatXmlData implements Serializable {
                         .filter(e -> nameMatches(e, ann.name()))
                         .findFirst()
                         .ifPresent(e -> {
-                            Object obj = _resolve(ann.value(), singletonList(e));
+                            Object obj = _resolve(ann.value(), collectChildren(e));
                             if (obj != null) {
                                 bw.setPropertyValue(new PropertyValue(descriptor.getName(), obj));
                             }
@@ -229,7 +232,7 @@ public class WeChatXmlData implements Serializable {
                     elements.stream()
                         .filter(e -> nameMatches(e, ann.name()))
                         .forEach(e -> {
-                            Object obj = _resolve(ann.value(), singletonList(e));
+                            Object obj = _resolve(ann.value(), collectChildren(e));
                             if (obj != null) {
                                 //noinspection unchecked
                                 list.add(obj);
@@ -246,5 +249,20 @@ public class WeChatXmlData implements Serializable {
 
     private boolean nameMatches(Element e, String name) {
         return e != null && (StringUtils.equals(name, e.getLocalName()) || StringUtils.equals(name, e.getNodeName()));
+    }
+
+    private List<Element> collectChildren(Element e) {
+        NodeList nodes = e.getChildNodes();
+        if (nodes == null) return emptyList();
+
+        List<Element> elements = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Node node = nodes.item(i);
+            if (node instanceof Element) {
+                elements.add(((Element) node));
+            }
+        }
+
+        return elements;
     }
 }

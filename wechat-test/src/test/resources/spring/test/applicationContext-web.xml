@@ -78,5 +78,6 @@
         <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserPayOrderMessageHandler" c:_0-ref="jaxbObjectFactory"/>
         <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserPassCheckMessageHandler" c:_0-ref="jaxbObjectFactory"/>
         <bean class="com.googlecode.easyec.wechat.test.cards.impl.MyUserSubmitMemberCardMessageHandler" c:_0-ref="jaxbObjectFactory"/>
+        <bean class="com.googlecode.easyec.wechat.test.msg.impl.MyMsgContentMessageHandler" c:_0-ref="jaxbObjectFactory"/>
     </util:list>
 </beans>

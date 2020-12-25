@@ -19,7 +19,7 @@ public class WeChatMessageTestCase extends BaseTest {
 
     @Test
     public void loadXmlObject() throws Exception {
-        InputStream fis = new ClassPathResource("xml/test.xml").getInputStream();
+        InputStream fis = new ClassPathResource("xml/messages.xml").getInputStream();
         try {
             byte[] bs = IOUtils.toByteArray(fis);
             weChatMessageHandler.process(bs);
