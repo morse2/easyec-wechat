@@ -1,48 +1,57 @@
 <xml>
     <ToUserName><![CDATA[1E15CB6D250F0F43FEC3F57B48284845]]></ToUserName>
     <FromUserName><![CDATA[859EEBAF5BB42680F0C9E70C09A5D1FB]]></FromUserName>
-    <CreateTime>1608808040</CreateTime>
-    <MsgId><![CDATA[6909777921320391685]]></MsgId>
+    <CreateTime>1609212670</CreateTime>
+    <MsgId><![CDATA[6911515791629606790]]></MsgId>
     <MsgType><![CDATA[NlpMultiIndustryC2cMsg]]></MsgType>
     <MsgTalkType>0</MsgTalkType>
     <MsgContent>
         <Msg>
-            <Content><![CDATA[上海到洛杉矶的价格是多少]]></Content>
+            <Content><![CDATA[上海到伦敦的价格是多少<br />上海到莫斯科的价格]]></Content>
             <Type><![CDATA[text]]></Type>
-            <NlpId><![CDATA[1300000608-g-1023367922-2851718661-0-6909777921320391685]]></NlpId>
+            <NlpId><![CDATA[1300000608-g-1023367922-2851718661-0-6911515791629606790]]></NlpId>
             <NlpFlag>1</NlpFlag>
             <NlpResult>
                 <NlpResultLine>
                     <Result>
                         <ValueLine>
                             <context_info>
+                                <context><![CDATA[上海到洛杉矶的价格r上海到纽约的价格]]></context>
+                                <context><![CDATA[上海到洛杉矶的价格]]></context>
                                 <context><![CDATA[上海到洛杉矶的价格是多少]]></context>
-                                <question><![CDATA[上海到洛杉矶的价格是多少]]></question>
+                                <context><![CDATA[上海到洛杉矶的价格是多少r上海到东京的价格]]></context>
+                                <context><![CDATA[上海到伦敦的价格是多少r上海到莫斯科的价格]]></context>
+                                <question><![CDATA[上海到伦敦的价格是多少r上海到莫斯科的价格]]></question>
                             </context_info>
                             <scene_id>101</scene_id>
                             <scene_info>
                                 <budiejia>false</budiejia>
+
                                 <jmt>
-                                    <piece></piece>
-                                    <volume></volume>
-                                    <weight></weight>
+                                    <piece>11</piece>
+                                    <volume>22</volume>
+                                    <weight>333</weight>
+                                    <piece>11</piece>
+                                    <volume>22</volume>
+                                    <weight>333</weight>
                                 </jmt>
+
                                 <ports>
                                     <from><![CDATA[上海]]></from>
                                     <from_code><![CDATA[CNSHA]]></from_code>
-                                    <to><![CDATA[洛杉矶]]></to>
-                                    <to_code><![CDATA[USLAX]]></to_code>
+                                    <to><![CDATA[伦敦]]></to>
+                                    <to_code><![CDATA[GBLON]]></to_code>
+                                    <to_code><![CDATA[GBLCT]]></to_code>
                                 </ports>
                                 <special_kws></special_kws>
                             </scene_info>
                             <scene_name><![CDATA[询价]]></scene_name>
-                            <scene_nlp_id>1608808040767617</scene_nlp_id>
+                            <scene_nlp_id>1609212671705716</scene_nlp_id>
                         </ValueLine>
                     </Result>
                     <Retcode>0</Retcode>
                     <Retmsg><![CDATA[success]]></Retmsg>
                 </NlpResultLine>
-
             </NlpResult>
             <NlpSemantics>0</NlpSemantics>
         </Msg>

@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
@@ -186,26 +186,33 @@ public class WeChatXmlData implements Serializable {
                 final Method method = descriptor.getWriteMethod();
                 if (method.isAnnotationPresent(XmlElementMapping.class)) {
                     final XmlElementMapping ann = method.getAnnotation(XmlElementMapping.class);
-                    elements.stream()
+                    Class<? extends XmlElementConverter<?>> cv = ann.converter();
+                    if (cv.isInterface()) {
+                        throw new IllegalArgumentException(
+                            "XmlElementConverter cannot be a interface. Converter class: ["
+                                + cv + "].");
+                    }
+
+                    List<?> values
+                        = elements.stream()
                         .filter(e -> nameMatches(e, ann.name()))
-                        .findFirst()
-                        .ifPresent(e -> {
-                            Class<? extends XmlElementConverter<?>> cv = ann.converter();
-                            if (cv.isInterface()) {
-                                logger.warn("XmlElementConverter cannot be a interface. Converter class: [{}].", cv);
+                        .map(e -> instantiateClass(cv).from(trim(e.getTextContent())))
+                        .collect(Collectors.toList());
 
-                                return;
-                            }
-
-                            bw.setPropertyValue(
-                                new PropertyValue(
-                                    descriptor.getName(),
-                                    instantiateClass(cv).from(
-                                        trim(e.getTextContent())
-                                    )
-                                )
-                            );
-                        });
+                    if (isNotEmpty(values)) {
+                        Class<?> pType = method.getParameterTypes()[0];
+                        if (List.class.isAssignableFrom(pType)) {
+                            bw.setPropertyValue(new PropertyValue(descriptor.getName(), values));
+                        } else if (Set.class.isAssignableFrom(pType)) {
+                            bw.setPropertyValue(new PropertyValue(descriptor.getName(), new HashSet<>(values)));
+                        } else if (pType.isArray()) {
+                            bw.setPropertyValue(new PropertyValue(descriptor.getName(), values.toArray()));
+                        } else if (Collection.class.isAssignableFrom(pType)) {
+                            bw.setPropertyValue(new PropertyValue(descriptor.getName(), values));
+                        } else {
+                            bw.setPropertyValue(new PropertyValue(descriptor.getName(), values.get(0)));
+                        }
+                    }
                 }
                 // if is XmlObjectMapping
                 if (method.isAnnotationPresent(XmlObjectMapping.class)) {
