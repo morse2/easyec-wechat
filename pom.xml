@@ -82,13 +82,13 @@
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>spirit-web</artifactId>
-            <version>0.8.3.1</version>
+            <version>0.8.3.1-b02</version>
         </dependency>
 
         <dependency>
             <groupId>com.googlecode.easyec</groupId>
             <artifactId>security-crypto</artifactId>
-            <version>0.2.2.1</version>
+            <version>0.2.2.1-b01</version>
         </dependency>
 
         <dependency>
