@@ -3,7 +3,7 @@
     <groupId>com.googlecode.easyec</groupId>
     <artifactId>wechat</artifactId>
     <packaging>pom</packaging>
-    <version>0.2.4-SNAPSHOT</version>
+    <version>0.2.3-SNAPSHOT</version>
     <modules>
         <module>wechat-base</module>
         <module>wechat-test</module>
